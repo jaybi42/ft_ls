@@ -6,8 +6,15 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 18:00:58 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/08 18:01:07 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/02/08 18:50:11 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+int	main (int argc, char **argv)
+{
+	if (argc == 2)
+		argv = NULL;
+	return (0);
+}
