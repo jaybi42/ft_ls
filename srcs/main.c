@@ -6,13 +6,21 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 18:00:58 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/17 14:22:13 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/02/18 18:39:35 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static int	is_in(char c, char *str)
+#include <sys/types.h>
+#include <dirent.h>
+
+#include <unistd.h>
+#include <errno.h>
+
+#include <sys/xattr.h>
+
+static int	is_in(char c, const char *str)
 {
 	while (*str)
 	{
@@ -60,7 +68,22 @@ int list_flag(int argc, char **argv)
 
 int list_files(int argc, char **argv)
 {
-	printf("GOOD\n");
+	DIR				*rep;
+	struct dirent	*dir_stat;
+	ssize_t			ret;
+
+	rep = opendir(argv[1]);
+	if (rep == NULL)
+	{
+		printf("errno: [%i]\n", errno);
+		printf("Error: [%s]\n", strerror(errno));
+		return (0);
+	}
+	while ((dir_stat = readdir(rep)) != NULL)
+		printf("nom du fichier: %s\n", dir_stat->d_name);
+	if (closedir(rep))
+		return (1);
+	ret = listxattr(argv[1]);
 	return (0);
 }
 
@@ -69,6 +92,9 @@ int	main (int argc, char **argv)
 	if (list_flag(argc, argv) == 1)
 		return (0);
 	else if (list_files(argc, argv) == 1)
+	{
+		printf("Error list files\n");
 		return (0);
+	}
 	return (0);
 }
