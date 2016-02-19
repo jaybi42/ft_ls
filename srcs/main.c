@@ -6,19 +6,13 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 18:00:58 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/18 18:39:35 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/02/19 20:27:00 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
 #include <sys/types.h>
 #include <dirent.h>
-
-#include <unistd.h>
-#include <errno.h>
-
-#include <sys/xattr.h>
 
 static int	is_in(char c, const char *str)
 {
@@ -31,7 +25,7 @@ static int	is_in(char c, const char *str)
 	return (0);
 }
 
-int list_flag(int argc, char **argv)
+static int list_flag(int argc, char **argv)
 {
 	char const base[] = "Ralrt";
 	char		*tmp;
@@ -66,24 +60,26 @@ int list_flag(int argc, char **argv)
 	return (0);
 }
 
-int list_files(int argc, char **argv)
+static int list_files(int argc, char **argv)
 {
 	DIR				*rep;
 	struct dirent	*dir_stat;
-	ssize_t			ret;
+	t_file			file;
 
 	rep = opendir(argv[1]);
 	if (rep == NULL)
+		ERRORNO;
+	else
 	{
-		printf("errno: [%i]\n", errno);
-		printf("Error: [%s]\n", strerror(errno));
-		return (0);
+		while ((dir_stat = readdir(rep)) != NULL)
+			ft_putendl(dir_stat->d_name);
+		if (closedir(rep))
+			return (1);
 	}
-	while ((dir_stat = readdir(rep)) != NULL)
-		printf("nom du fichier: %s\n", dir_stat->d_name);
-	if (closedir(rep))
+	file = FILE_INIT;
+	file.path = argv[1];
+	if (get_stat(&file) == 1)
 		return (1);
-	ret = listxattr(argv[1]);
 	return (0);
 }
 

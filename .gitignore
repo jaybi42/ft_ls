@@ -1,0 +1,9 @@
+*.o
+*.a
+*~
+*.cmo
+*.cmi
+*.cmx
+.#*
+*.dump
+ft_ls

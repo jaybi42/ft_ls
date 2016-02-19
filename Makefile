@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/02/08 18:00:36 by jguthert         ###   ########.fr        #
+#    Updated: 2016/02/19 20:28:14 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -42,8 +42,8 @@ INCLUDES = -I./ -I $(LIBFT_PATH)/includes -I $(INCLUDE_PATH)
 OBJ = $(SRC:$(SRCPATH)/%.c=$(OBJPATH)/%.o)
 	SRC = $(addprefix $(SRCPATH)/,$(SRCSFILES))
 
-SRCSFILES =             main.c       \
-
+SRCSFILES =             main.c		\
+						get_info.c	\
 
 ##=-  Process -=##
 
