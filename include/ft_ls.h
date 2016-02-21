@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/19 20:28:02 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/02/21 18:48:51 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@
 
 # include "libft.h"
 
-# define FILE_INIT ((t_file){NULL, 0, 0, 0, NULL, NULL, NULL, NULL})
+# define FILE_INIT ((t_file){NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL})
 
 typedef struct	s_file
 {
 	char		*path;
+	char		*name;
+	uint8_t		namelen;
 	uint16_t	mode;
 	uint16_t	nb_link;
 	uint64_t	size;
@@ -35,11 +37,29 @@ typedef struct	s_file
 	char		*time_modif;
 }				t_file;
 
+typedef struct	s_arg
+{
+	bool		*arg;
+	int			cursor;
+	int			size;
+}				t_arg;
+
 /*
 **Name: Main
 **File: main.c
 **Desc: main
 */
+
+
+
+/*
+**Name: Parsing
+**File: parsing.c
+**Desc: Parse files
+*/
+
+//int				get_files(char *path);
+int				list_files(int argc, char **argv);
 
 /*
 **Name: Get info
