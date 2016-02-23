@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 18:00:58 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/23 21:41:02 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/02/23 23:21:41 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,13 @@ static int	make_ls(int argc, char **argv, t_arg *arg_list)
 {
 	t_list	*list;
 	char	*root[] = {".", NULL};
-	int	i;
+	int		i;
 
 	i = 1;
 	while (i < argc && argv[i][0] == '-')
 		i++;
 	if (i == argc)
-		list = argv_to_list(root, 1, 1, arg_list);
+		list = argv_to_list(root, 0, 0, arg_list);
 	else
 		list = argv_to_list(argv, argc - 1, i, arg_list);
 	if (list == NULL)

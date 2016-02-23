@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/23 21:41:53 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/02/23 23:53:14 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,14 @@ static int		check_file(char *path, t_file *file)
 {
 	DIR             *rep;
 
+	*file = FILE_INIT;
 	rep = opendir(path);
 	file->path = path;
 	file->name = name_from_path(path);
 	if (rep == NULL && errno == 20)
+	{
 		file->is_fil = 1;
+	}
 	else if (rep != NULL)
 	{
 		file->is_dir = 1;
@@ -95,15 +98,28 @@ static int		check_file(char *path, t_file *file)
 	return (0);
 }
 
+static void test_list(t_list **begin_list)
+{
+	t_list *drive;
+
+	drive = *begin_list;
+	while (drive != NULL)
+	{
+		printf("list.content_size: [%i]\n", drive->content_size);
+//		printf("name: [%s], is_dir: [%i], is_fil: [%i]\n", drive->file.name, drive->file.is_dir, drive->file.is_fil);
+		drive = drive->next;
+	}
+}
+
 t_list	*argv_to_list(char **argv, int max, int start, t_arg *arg_list)
 {
 	t_list			*list;
 	t_list			*begin_list;
 	t_file			file;
 
-    file = FILE_INIT;
 	if (check_file(argv[start++], &file) == 1)
 		return (NULL);
+//	printf("name_real: [%s], name_done: [%s], is_dir: [%i], is_fil: [%i]\n", argv[start - 1], file.name, file.is_dir, file.is_fil);
 	begin_list = ft_lstnew(&file, sizeof(t_file));
 	if (begin_list == NULL)
 		return (NULL);
@@ -121,6 +137,7 @@ t_list	*argv_to_list(char **argv, int max, int start, t_arg *arg_list)
 //		else
 //			ft_lst_mid(&begin_list, list);
 	}
+	test_list(&begin_list);
 //	sort_argv(&begin_list, arg_list);
 	return (begin_list);
 }

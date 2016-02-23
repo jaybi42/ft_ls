@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/22 15:40:27 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/23 22:00:46 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/02/23 23:03:13 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void		ft_lst_mid(t_list **begin, t_list *list)
 		prev = tamp;
 		tamp = tamp->next;
 	}
-	}*/
+}
 
 void		sort_argv(t_list **list)
 {
@@ -69,8 +69,8 @@ void		sort_argv(t_list **list)
 
 	}
 	return ;
-}
-*/
+	}*/
+
 
 void		sort_list(t_list **list, t_arg *arg_list)
 {
