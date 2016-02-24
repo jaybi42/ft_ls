@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/22 15:40:27 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/24 20:28:54 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/02/24 23:31:17 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,13 @@ static void sort_mtime(t_list **list)
 	return ;
 }
 
-static void put_link(t_list **list, t_list *link)
+static void link_to_front(t_list **list, t_list *link)
 {
-	t_list	*tamp;
 	t_list	*prev;
 
-	tamp = (*list)->next;
 	prev = *list;
-	while (tamp != link)
-	{
+	while (prev->next != link)
 		prev = prev->next;
-		tamp = tamp->next;
-	}
 	prev->next = link->next;
 	link->next = *list;
 	*list = link;
@@ -50,7 +45,7 @@ static void put_link(t_list **list, t_list *link)
 static void sort_lexi(t_list **list, bool crescent)
 {
 	t_list	*tamp;
-	t_list	*first;
+	t_list	*link;
 	t_list	*begin;
 
 
@@ -58,21 +53,21 @@ static void sort_lexi(t_list **list, bool crescent)
 	while (begin != NULL)
 	{
 		tamp = begin->next;
-		first = begin;
+		link = begin;
 		while (tamp != NULL)
 		{
 			if (crescent && ft_strcmp(((t_file *)tamp->content)->name,
-									  ((t_file *)first->content)->name) > 0)
-				first = tamp;
+										((t_file *)link->content)->name) > 0)
+				link = tamp;
 			else if (!crescent && ft_strcmp(((t_file *)tamp->content)->name,
-											((t_file *)first->content)->name) < 0)
-				first = tamp;
+										((t_file *)link->content)->name) < 0)
+				link = tamp;
 			tamp = tamp->next;
 		}
-		if (begin == first)
+		if (begin == link)
 			begin = begin->next;
-		if (first != *list)
-			put_link(list, first);
+		if (link != *list)
+			link_to_front(list, link);
 	}
 }
 
@@ -84,5 +79,6 @@ int			sort_list(t_list **list, t_arg *arg_list)
 		sort_mtime(list);
 	else
 		sort_lexi(list, 1);
+//	test_list(list);
 	return (0);
 }
