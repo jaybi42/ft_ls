@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/02/22 15:50:23 by jguthert         ###   ########.fr        #
+#    Updated: 2016/02/24 15:25:06 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -46,7 +46,7 @@ SRCSFILES =             main.c			\
 						get_info.c		\
 						parsing_files.c	\
 						sort_list.c		\
-
+						sort_argv.c		\
 
 ##=-  Process -=##
 

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/23 21:55:54 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/02/24 15:21:02 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,12 @@ typedef struct	s_arg
 
 /*
 **Name: Parsing
-**File: parsing.c
+**File: parsing.c sort_arg.c
 **Desc: Parse files
 */
 
-t_list			*argv_to_list(char **argv, int max, int start, t_arg *arg_list);
+int				sort_arg(t_list **list);
+int				argv_to_list(char **argv, int argi, t_arg *arg_list);
 
 /*
 **Name: Parsing
@@ -67,7 +68,7 @@ t_list			*argv_to_list(char **argv, int max, int start, t_arg *arg_list);
 **Desc: Parse files
 */
 
-void			sort_list(t_list **list, t_arg *arg_list);
+int				sort_list(t_list **list, t_arg *arg_list);
 
 /*
 **Name: Parsing
