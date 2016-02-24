@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 18:00:58 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/24 15:28:48 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/02/24 18:45:24 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	make_ls(int argc, char **argv, t_arg *arg_list)
 	int		ret;
 
 	argc -= 1;
-	while (argc > 0 && argv[0][0] == '-')
+	while (argc > 0 && argv[1][0] == '-')
 	{
 		argv++;
 		argc--;
