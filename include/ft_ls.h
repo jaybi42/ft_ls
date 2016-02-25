@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/25 16:52:09 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/02/25 18:11:46 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ typedef struct	s_file
 	uint64_t	size;
 	char		*gp_id;
 	char		*user_id;
-	char		*time_acces;
-	char		*time_modif;
+	int			atime;
+	int			mtime;
 }				t_file;
 
 typedef struct	s_arg
@@ -54,11 +54,11 @@ typedef struct	s_arg
 
 /*
 **Name: Parsing
-**File: parsing.c sort_arg.c
+**File: make_argv.c sort_argv.c
 **Desc: Parse files
 */
 
-int				sort_arg(t_list **list);
+int				sort_argv(t_list **list);
 int				argv_to_list(char **argv, int argi, t_arg *arg_list);
 
 /*

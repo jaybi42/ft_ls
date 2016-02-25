@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/19 19:10:05 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/21 14:13:33 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/02/25 18:04:47 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ int			get_stat(t_file *file)
 	file->mode = stat.st_mode;
 	file->nb_link = stat.st_nlink;
 	file->size = stat.st_size;
+	file->mtime = stat.st_mtime;
+	file->atime = stat.st_atime;
 	return (0);
 }
