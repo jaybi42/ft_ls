@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/24 15:21:02 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/02/25 16:52:09 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,13 @@
 
 # include "libft.h"
 
-# define FILE_INIT ((t_file){NULL, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL})
 # define ARG_INIT ((t_arg){{0, 0, 0, 0, 0}, 5, 0})
 
 typedef struct	s_file
 {
 	char		*path;
 	char		*name;
-	bool		is_fil;
+	bool		is_fake;
 	bool		is_dir;
 	uint8_t		namelen;
 	uint16_t	mode;

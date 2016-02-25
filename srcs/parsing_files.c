@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/24 23:46:43 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/02/25 17:39:02 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ static int		check_file(char *path, t_file *file)
 {
 	DIR             *rep;
 
-	*file = FILE_INIT;
+	ft_bzero(file, sizeof(t_file));
 	rep = opendir(path);
 	file->path = path;
 	file->name = name_from_path(path);
-	if (rep == NULL && errno == 20)
-		file->is_fil = 1;
+	if (rep == NULL && errno != 20)
+		file->is_fake = 1;
 	else if (rep != NULL)
 	{
 		file->is_dir = 1;
