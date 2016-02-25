@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/22 15:40:27 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/25 18:26:30 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/02/25 18:30:29 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,14 @@ static void test_list(t_list **begin_list)
     t_list *drive;
 
     drive = *begin_list;
-    while (drive != NULL)
-    {
-		printf("name: [%s]\n", ((t_file *)drive->content)->name);
+	while (drive != NULL)
+	{
+		if (((t_file *)drive->content)->is_dir == 1)
+			printf("\n%s:\n", ((t_file *)drive->content)->name);
+		else
+			printf("%s\n", ((t_file *)drive->content)->name);
 		drive = drive->next;
-    }
+	}
 }
 
 static void link_to_front(t_list **list, t_list *link)

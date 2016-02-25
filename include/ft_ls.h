@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/25 18:11:46 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/02/25 18:52:42 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,35 +47,24 @@ typedef struct	s_arg
 }				t_arg;
 
 /*
-**Name: Main
-**File: main.c
-**Desc: main
+**Name: Print
+**File: print.c
+**Desc: print with options
 */
+
+void			print_ls(t_list *list, t_arg *arg_list);
 
 /*
 **Name: Parsing
-**File: make_argv.c sort_argv.c
+**File: make_argv.c sort_argv.c make_list.c
 **Desc: Parse files
 */
 
+int				recursive_list(t_list *list,t_arg *arg_list);
+int				base_list(t_list *list, t_arg *arg_list);
 int				sort_argv(t_list **list);
 int				argv_to_list(char **argv, int argi, t_arg *arg_list);
-
-/*
-**Name: Parsing
-**File: parsing.c
-**Desc: Parse files
-*/
-
 int				sort_list(t_list **list, t_arg *arg_list);
-
-/*
-**Name: Parsing
-**File: parsing.c
-**Desc: Parse files
-*/
-
-//int				get_files(char *path);
 
 /*
 **Name: Get info
