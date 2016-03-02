@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/25 18:52:42 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/02 18:18:28 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,38 +21,47 @@
 
 # include "libft.h"
 
-# define ARG_INIT ((t_arg){{0, 0, 0, 0, 0}, 5, 0})
+# define ARG_INIT ((t_arg){{0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0}, 5, 0})
 
 typedef struct	s_file
 {
 	char		*path;
 	char		*name;
+	int			ino;
 	bool		is_fake;
 	bool		is_dir;
 	uint8_t		namelen;
-	uint16_t	mode;
+	uint16_t	mod;
 	uint16_t	nb_link;
 	uint64_t	size;
 	char		*gp_id;
 	char		*user_id;
+	int			ngp_id;
+	int			nuser_id;
 	int			atime;
+	int			ctime;
 	int			mtime;
 }				t_file;
 
 typedef struct	s_arg
 {
-	bool		arg[5];
+	bool		arg[14];
 	int			size;
 	int			cursor;
 }				t_arg;
 
 /*
 **Name: Print
-**File: print.c
-**Desc: print with options
+**File: print_ls.c print_ls_ext.c print_ls_time.c
+**Desc: print ls with options
 */
 
+void			print_total(t_list *list);
+void			print_name(char *name);
 void			print_ls(t_list *list, t_arg *arg_list);
+void			print_nlink(uint16_t nlink);
+void			print_time(int time);
+int				nbrlen(uint64_t nbr);
 
 /*
 **Name: Parsing

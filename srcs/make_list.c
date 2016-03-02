@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/25 21:42:29 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/02 18:31:55 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,29 +52,46 @@ static int		can_add(char *str)
 	return (1);
 }
 
-static int		make_list(char *path, t_file *file, t_arg *arg_list)
+static int		add_list(t_list **new_list)
 {
-	t_list			*new_list;
+	t_file			file;
+
+	while (argi > 0)
+	{
+
+	}
+}
+
+static int		make_list(char *path, t_file *file, t_arg *arg_list, t_list **new_list)
+{
+	t_list			*tamp;
 	DIR				*dir;
 	struct dirent	*st_dir;
 
 	ft_bzero(file, sizeof(t_file));
 	dir = opendir(path);
 	file->path = path;
-	if (dir == NULL)
-	{
-		get_stat(file);
-		return (0);
-	}
-	while ((st_dir = readdir(dir)) != NULL)
+	while (dir != NULL && (st_dir = readdir(dir)) != NULL)
 	{
 		if (can_add(st_dir->d_name, arg_list) == 0)
 			continue ;
-		file->name =  st_dir->d_name;
+
 		file->name = st_dir->d_name;
-		file->is_dir = 1;
-		get_stat(file);
+		if (*new_list == NULL)
+		{
+			*new_list = ft_lstnew(&file, sizeof(t_file));
+			if (*new_list == NULL)
+				return (ERROR);
+		}
+		else
+		{
+			tamp = ft_lstnew(&file, sizeof(t_file));
+			if (tamp == NULL)
+				return (ERROR);
+			ft_lstadd(&begin_list, tamp);
+		}
 	}
+	get_stat(file);
 	return (0);
 }
 
@@ -84,19 +101,19 @@ int				base_list(t_list *list, t_arg *arg_list)
 	t_list	*new_list;
 	t_file	*file;
 
-//	aff_list(list);
+	print_ls(list, arg_list);
 	link = list;
 	new_list = NULL;
 	while (link != NULL)
 	{
 		if (((t_file *)link->content)->is_dir == 1)
 		{
-			new_list = make_list(((t_file *)link->content)->path, file, arg_list);
+			make_list(((t_file *)link->content)->path, file, arg_list, &new_list);
 			sort_list(&new_list, arg_list);
 			if (arg->arg_list[0] == 1)
 				base_list(new_list, arg_list);
-//			else
-//				aff_list(new_list, arg_list);
+			else
+				print_ls(new_list, arg_list);
 		}
 		link = link->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/25 20:46:06 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/02 17:31:34 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int			argv_to_list(char **argv, int argi, t_arg *arg_list)
 	}
 	if (sort_list(&begin_list, arg_list) == 1)
 		return (ERROR);
-	if (sort_argv(&begin_list) == 1)
+	if (arg_list[5] == 0 && sort_argv(&begin_list) == 1)
 		return (ERROR);
 	base_list(begin_list, arg_list);
 	return (0);

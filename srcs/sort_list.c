@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/22 15:40:27 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/25 18:30:29 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/02 17:30:13 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void link_to_front(t_list **list, t_list *link)
 	*list = link;
 }
 
-static void sort_mtime(t_list **list, bool crescent)
+static void sort_time(t_list **list, bool crescent)
 {
 	t_list	*tamp;
 	t_list	*link;
@@ -100,9 +100,11 @@ static void sort_lexi(t_list **list, bool crescent)
 
 int			sort_list(t_list **list, t_arg *arg_list)
 {
-	if (arg_list->arg[4] == 1)
-		sort_mtime(list, arg_list->arg[3]);
+	if (arg_list->arg[5] == 1)
+		return (0);
+	else if (arg_list->arg[12] == 1)
+		sort_time(list, arg_list->arg[11]);
 	else
-		sort_lexi(list, arg_list->arg[3]);
+		sort_lexi(list, arg_list->arg[11]);
 	return (0);
 }

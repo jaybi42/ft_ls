@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/02/25 17:45:23 by jguthert         ###   ########.fr        #
+#    Updated: 2016/03/02 18:14:34 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -48,6 +48,9 @@ SRCSFILES =             main.c			\
 						sort_list.c		\
 						sort_argv.c		\
 						make_list.c		\
+						print_ls.c		\
+						print_ls_time.c	\
+						print_ls_ext.c	\
 
 ##=-  Process -=##
 
