@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/01 14:10:01 by jguthert          #+#    #+#             */
-/*   Updated: 2016/01/03 13:27:59 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/03 21:27:36 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,10 @@
 
 void	*ft_memalloc(size_t size)
 {
-	char *str;
+	void	*str;
 
-	if (!(str = (char*)malloc(size)))
+	if (!(str = (void *)malloc(size)))
 		return (NULL);
-	while (--size)
-		str[size] = '\0';
-	str[size] = '\0';
+	ft_memset(str, 0, size);
 	return (str);
 }

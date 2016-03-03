@@ -6,18 +6,22 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/02 18:29:32 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/03 22:20:08 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include <errno.h>
+#include <string.h>
 
 static void		print_error(char *name)
 {
+	if (name == NULL)
+		return ;
 	ft_putstr("ls: ");
 	ft_putstr(name);
 	ft_putstr(": ");
-	ft_putendl(strerror(errno));
+	ft_putendl("No such file or directory");
 }
 
 
@@ -61,6 +65,7 @@ static void		print_ID(t_file *file, bool g, bool n)
 		else
 			ft_putstr(file->user_id);
 	}
+	ft_putstr(" ");
 	if (n == 1 || file->user_id == NULL)
 		ft_putnbr(file->ngp_id);
 	else
@@ -68,23 +73,25 @@ static void		print_ID(t_file *file, bool g, bool n)
 	ft_putstr(" ");
 }
 
-static int		print_mod(uint16_t mod, int ino, bool h)
+static int		print_mode(uint16_t mode, int ino, bool h)
 {
-	char const	base = "rwxrxwrxw";
+	char const	base[] = "xwrxwrxwr";
 	int			i;
 
+	i = 9;
 	if (h == 1)
 	{
 		ft_putnbr(ino);
 		return (0);
 	}
 //type de fichier
-	while (i < 9)
+	while (i > 0)
 	{
-		if (mod >> i |= 1)
+		if ((mode >> i) & 1)
 			ft_putchar(base[i]);
 		else
 			ft_putchar('-');
+		i--;
 	}
 //	extended attributes => @, after mod displayed
 //	acces control list => +, after mod displayed
@@ -96,23 +103,29 @@ void			print_ls(t_list *list, t_arg *arg_list)
 {
 	t_file	*file;
 
-	if (*list!=arg_list[9] == 1)
+	if (list != NULL && arg_list->arg[9] == 1)
 		print_total(list);
-	while (*list != NULL)
+	while (list != NULL)
 	{
 		file = ((t_file *)list->content);
-		if (*list!=arg_list[9] == 1)
+		if (file->is_fake == 1)
 		{
-			print_mod(file->mod, file->ino, arg_list[8]);
+			print_error(file->name);
+			list = list->next;
+			continue ;
+		}
+		else if (list != NULL && arg_list->arg[9] == 1)
+		{
+			print_mode(file->mode, file->ino, arg_list->arg[8]);
 			print_nlink(file->nb_link);
-			print_ID(file, arg_list[6], arg_list[10]);
-			print_size(file->size, arg_list[7]);
-			if (arg_list[13] == 1)
+			print_ID(file, arg_list->arg[6], arg_list->arg[10]);
+			print_size(file->size, arg_list->arg[7]);
+			if (arg_list->arg[13] == 1)
 				print_time(file->atime);
-			else if (arg_list[3] == 1)
+			else if (arg_list->arg[3] == 1)
 				print_time(file->ctime);
 			else
-				print_time(a->mtime);
+				print_time(file->mtime);
 		}
 		print_name(file->name);
 		list = list->next;
