@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/24 14:59:31 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/03 19:12:57 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/04 17:22:12 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,27 @@
 static void	link_to_fakefile(t_list **list, t_list *link)
 {
 	t_list	*prev;
-	t_list	*tamp;
+	t_list	*next;
 
 	if (link == *list)
 		return ;
 	prev = *list;
 	while (prev->next != link)
 		prev = prev->next;
+	if (((t_file *)prev->content)->is_fake == 0)
+		return ;
 	prev->next = link->next;
 	prev = *list;
-	if (((t_file *)prev->content)->is_fake == 0)
+	next = (*list)->next;
+	while (next != NULL)
 	{
-		link->next = prev;
-		*list = link;
-		return ;
-	}
-	tamp = (*list)->next;
-	while (tamp != NULL)
-	{
-		if (((t_file *)tamp->content)->is_fake == 0)
+		if (((t_file *)next->content)->is_fake == 0)
 			break ;
-		tamp = tamp->next;
+		next = next->next;
 		prev = prev->next;
 	}
-	link->next = tamp;
-	prev->next = link;
+	link->next = next;
+	next->next = link;
 }
 
 static void	link_to_back(t_list **list, t_list *link)
@@ -91,7 +87,7 @@ int			sort_argv(t_list **list)
 	{
 		if (((t_file *)link->content)->is_fake == 1)
 			link_to_fakefile(list, link);
-		else if (((t_file *)link->content)->is_dir == 1)
+		else if (S_ISDIR(((t_file *)link->content)->mode) == 1)
 			link_to_back(list, link);
 		link = next_link;
 		if (next_link != NULL)

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/22 15:40:27 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/02 17:30:13 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/04 17:19:24 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void test_list(t_list **begin_list)
     drive = *begin_list;
 	while (drive != NULL)
 	{
-		if (((t_file *)drive->content)->is_dir == 1)
+		if (S_ISDIR(((t_file *)drive->content)->mode) == 1)
 			printf("\n%s:\n", ((t_file *)drive->content)->name);
 		else
 			printf("%s\n", ((t_file *)drive->content)->name);

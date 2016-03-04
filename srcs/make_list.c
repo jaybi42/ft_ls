@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/03 22:30:13 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/04 17:21:33 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void test_list(t_list **begin_list)
 	drive = *begin_list;
 	while (drive != NULL)
 	{
-		if (((t_file *)drive->content)->is_dir == 1)
+		if (S_ISDIR(((t_file *)drive->content)->mode) == 1)
 			printf("\n%s:\n", ((t_file *)drive->content)->name);
 		else
 			printf("%s\n", ((t_file *)drive->content)->name);
@@ -40,10 +40,6 @@ static int			can_add(char *str, t_arg *arg_list)
 		return (0);
 	else if (str[0] == '.' && str[1] == '.' && arg_list->arg[0] == 0)
 		return (0);
-/*	while (*str)
-		str++;
-	if (*(str - 1) == '~' && arg_list->arg[0] == 1)
-	return (0);*/
 	return (1);
 }
 
@@ -74,7 +70,7 @@ static int			add_list(char *path, t_list **new_list)
 
 	if (*new_list == NULL)
 	{
-		if (check_file(path, &file) == 1)
+		if (get_stat(path, &file) == 1)
 			return (ERROR);
 		*new_list = ft_lstnew(&file, sizeof(t_file));
 		if (*new_list == NULL)
@@ -82,7 +78,7 @@ static int			add_list(char *path, t_list **new_list)
 	}
 	else
 	{
-		if (check_file(path, &file) == 1)
+		if (get_stat(path, &file) == 1)
 			return (ERROR);
 		tamp = ft_lstnew(&file, sizeof(t_file));
 		if (tamp == NULL)
@@ -138,7 +134,7 @@ int				base_list(t_list *list, t_arg *arg_list)
 		printf("\n\033[31m[NULL]\n\033[0m");
 	while (link != NULL)
 	{
-		if (((t_file *)link->content)->is_dir == 1)
+		if (S_ISDIR(((t_file *)link->content)->mode) == 1)
 		{
 //			printf("%s", ((t_file *)link->content)->path);
 			make_list(((t_file *)link->content)->path, arg_list, &new_list);

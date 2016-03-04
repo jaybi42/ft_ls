@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/02 18:02:25 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/03 22:28:54 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/04 20:09:56 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_dirname(t_list *link)
 {
-	if (((t_file *)link->content)->is_dir == 1)
+	if (S_ISDIR(((t_file *)link->content)->mode) == 1)
 	{
 		ft_putstr(((t_file *)link->content)->path);
 		ft_putendl(":");
@@ -26,7 +26,7 @@ void	print_dirname(t_list *link)
 		ft_putendl(": No such file or directory");
 	}
 	else
-		print_name(((t_file *)link->content)->name);
+		print_name(((t_file *)link->content)->name, 0);
 }
 
 int		nbrlen(uint64_t nbr)
@@ -57,10 +57,15 @@ void	print_total(t_list *list)
 	ft_putchar('\n');
 }
 
-void	print_name(char *name)
+void	print_name(char *name, bool is_lnk)
 {
 	if (name != NULL)
 		ft_putstr(name);
+	if (is_lnk == 1)
+	{
+		ft_putstr(" -> ");
+		ft_putstr(name);
+	}
 	ft_putchar('\n');
 }
 

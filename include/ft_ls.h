@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/03 22:29:36 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/04 20:18:59 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h> //
 
 # include "libft.h"
+#include <sys/stat.h>
 
 # define ARG_INIT ((t_arg){{0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0 ,0}, 5, 0})
 
@@ -27,20 +28,22 @@ typedef struct	s_file
 {
 	char		*path;
 	char		*name;
-	int			ino;
 	bool		is_fake;
-	bool		is_dir;
 	uint8_t		namelen;
 	uint16_t	mode;
 	uint16_t	nb_link;
 	uint64_t	size;
+	uint64_t	dev;
 	char		*gp_id;
 	char		*user_id;
+	int			ino;
 	int			ngp_id;
 	int			nuser_id;
 	int			atime;
 	int			ctime;
 	int			mtime;
+	int			major;
+	int			minor;
 }				t_file;
 
 typedef struct	s_arg
@@ -58,7 +61,7 @@ typedef struct	s_arg
 
 void			print_dirname(t_list *link);
 void			print_total(t_list *list);
-void			print_name(char *name);
+void			print_name(char *name, bool is_lnk);
 void			print_ls(t_list *list, t_arg *arg_list);
 void			print_nlink(uint16_t nlink);
 void			print_time(int file_time);
@@ -70,7 +73,6 @@ int				nbrlen(uint64_t nbr);
 **Desc: Parse files
 */
 
-int				check_file(char *path, t_file *file);
 int				base_list(t_list *list, t_arg *arg_list);
 int				sort_argv(t_list **list);
 int				argv_to_list(char **argv, int argi, t_arg *arg_list);
@@ -82,6 +84,6 @@ int				sort_list(t_list **list, t_arg *arg_list);
 **Desc: Get information from stat
 */
 
-int				get_stat(t_file *file);
+int				get_stat(char *path, t_file *file);
 
 #endif

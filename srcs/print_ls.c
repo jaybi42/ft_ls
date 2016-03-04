@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/03 22:20:08 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/04 20:10:27 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,19 @@ static void		print_error(char *name)
 
 static void		print_size(uint64_t size, bool h)
 {
+	char const	base[] = "bKMG";
+	int			i;
+
+	i = 0;
 	if (h == 1)
 	{
-		if (size < 1000)
+		while (size > 1000)
 		{
-			ft_putnbr(size);
-			ft_putchar('b');
+			size /= 1000;
+			i++;
 		}
-		else if (size < 1000000)
-		{
-			ft_putnbr(size/1000);
-			ft_putchar('K');
-		}
-		else if (size < 1000000000)
-		{
-			ft_putnbr(size/1000000);
-			ft_putchar('M');
-		}
-		else if (size < 1000000000000)
-		{
-			ft_putnbr(size/1000000000);
-			ft_putchar('G');
-		}
+		ft_putnbr(size);
+		ft_putchar(base[i]);
 	}
 	else
 		ft_putnbr(size);
@@ -75,7 +66,8 @@ static void		print_ID(t_file *file, bool g, bool n)
 
 static int		print_mode(uint16_t mode, int ino, bool h)
 {
-	char const	base[] = "xwrxwrxwr";
+	char const	base[] = "rwxrwxrwx";
+	char const	type[] = "-pc-d-b---l-s----";
 	int			i;
 
 	i = 9;
@@ -84,7 +76,7 @@ static int		print_mode(uint16_t mode, int ino, bool h)
 		ft_putnbr(ino);
 		return (0);
 	}
-//type de fichier
+	ft_putchar(type[((mode >> 12) > 16 ? 0 : mode >> 12)]);
 	while (i > 0)
 	{
 		if ((mode >> i) & 1)
@@ -93,8 +85,6 @@ static int		print_mode(uint16_t mode, int ino, bool h)
 			ft_putchar('-');
 		i--;
 	}
-//	extended attributes => @, after mod displayed
-//	acces control list => +, after mod displayed
 	ft_putstr(" ");
 	return (0);
 }
@@ -127,7 +117,7 @@ void			print_ls(t_list *list, t_arg *arg_list)
 			else
 				print_time(file->mtime);
 		}
-		print_name(file->name);
+		print_name(file->name, S_ISLNK(file->mode));
 		list = list->next;
 	}
 }
