@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/04 20:10:27 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/05 16:01:09 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,36 +56,36 @@ static void		print_ID(t_file *file, bool g, bool n)
 		else
 			ft_putstr(file->user_id);
 	}
-	ft_putstr(" ");
+	ft_putstr("  ");
 	if (n == 1 || file->user_id == NULL)
 		ft_putnbr(file->ngp_id);
 	else
 		ft_putstr(file->gp_id);
-	ft_putstr(" ");
+	ft_putstr("  ");
 }
 
 static int		print_mode(uint16_t mode, int ino, bool h)
 {
-	char const	base[] = "rwxrwxrwx";
+	char const	base[] = "-rwxrwxrwx";
 	char const	type[] = "-pc-d-b---l-s----";
 	int			i;
 
-	i = 9;
+	i = 1;
 	if (h == 1)
 	{
 		ft_putnbr(ino);
 		return (0);
 	}
 	ft_putchar(type[((mode >> 12) > 16 ? 0 : mode >> 12)]);
-	while (i > 0)
+	while (i < 10)
 	{
-		if ((mode >> i) & 1)
+		if ((mode >> (9 - i)) & 1)
 			ft_putchar(base[i]);
 		else
 			ft_putchar('-');
-		i--;
+		i++;
 	}
-	ft_putstr(" ");
+//	put_whitespace();
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/04 17:21:33 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/05 16:09:16 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int			add_list(char *path, t_list **new_list)
 	{
 		if (get_stat(path, &file) == 1)
 			return (ERROR);
-		*new_list = ft_lstnew(&file, sizeof(t_file));
+		*new_list = ft_lstnew((void *)&file, sizeof(t_file));
 		if (*new_list == NULL)
 			return (ERROR);
 	}
@@ -80,7 +80,7 @@ static int			add_list(char *path, t_list **new_list)
 	{
 		if (get_stat(path, &file) == 1)
 			return (ERROR);
-		tamp = ft_lstnew(&file, sizeof(t_file));
+		tamp = ft_lstnew((void *)&file, sizeof(t_file));
 		if (tamp == NULL)
 			return (ERROR);
 		ft_lstadd(new_list, tamp);
@@ -115,11 +115,13 @@ static int			make_list(char *path, t_arg *arg_list, t_list **new_list)
 void			free_list(void *content, size_t size)
 {
 	(void)size;
-	if (((t_file *)content)->path != NULL)
-		ft_strdel(&((t_file *)content)->path);
 	if (content != NULL)
+	{
+		if (((t_file *)content)->path != NULL)
+			ft_strdel(&((t_file *)content)->path);
 		free(content);
-	content = NULL;
+		content = NULL;
+	}
 }
 
 int				base_list(t_list *list, t_arg *arg_list)

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/02 18:02:25 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/04 20:09:56 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/05 15:27:46 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	print_dirname(t_list *link)
 {
+	if (link == NULL)
+		return ;
 	if (S_ISDIR(((t_file *)link->content)->mode) == 1)
 	{
 		ft_putstr(((t_file *)link->content)->path);
@@ -72,5 +74,5 @@ void	print_name(char *name, bool is_lnk)
 void	print_nlink(uint16_t nlink)
 {
 	ft_putnbr(nlink);
-	ft_putstr("  ");
+	ft_putstr(" ");
 }

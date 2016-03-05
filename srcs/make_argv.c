@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/04 17:18:29 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/05 16:11:27 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ int			argv_to_list(char **argv, int argi, t_arg *arg_list)
 
 	if (get_stat(argv[argi--], &file) == 1)
 		return (1);
-	begin_list = ft_lstnew(&file, sizeof(t_file));
+	begin_list = ft_lstnew((void *)&file, sizeof(t_file));
 	if (begin_list == NULL)
 		return (1);
 	while (argi > 0)
 	{
 		if (get_stat(argv[argi--], &file) == 1)
 			return (1);
-		tamp = ft_lstnew(&file, sizeof(t_file));
+		tamp = ft_lstnew((void *)&file, sizeof(t_file));
 		if (tamp == NULL)
 			return (1);
 		ft_lstadd(&begin_list, tamp);

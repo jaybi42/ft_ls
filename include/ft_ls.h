@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/04 20:18:59 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/05 16:36:09 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,24 @@
 
 # define ARG_INIT ((t_arg){{0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0 ,0}, 5, 0})
 
+typedef struct	s_time
+{
+	int			atime;
+	int			anano;
+	int			ctime;
+	int			cnano;
+	int			mtime;
+	int			mnano;
+}				t_time;
+
+typedef struct	s_id
+{
+	char		*gp_id;
+	char		*user_id;
+	int			ngp_id;
+	int			nuser_id;
+}				t_id;
+
 typedef struct	s_file
 {
 	char		*path;
@@ -34,16 +52,11 @@ typedef struct	s_file
 	uint16_t	nb_link;
 	uint64_t	size;
 	uint64_t	dev;
-	char		*gp_id;
-	char		*user_id;
 	int			ino;
-	int			ngp_id;
-	int			nuser_id;
-	int			atime;
-	int			ctime;
-	int			mtime;
 	int			major;
 	int			minor;
+	t_id		id;
+	t_time		time;
 }				t_file;
 
 typedef struct	s_arg
