@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/05 16:36:09 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/05 18:12:51 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@
 
 typedef struct	s_time
 {
-	int			atime;
-	int			anano;
-	int			ctime;
-	int			cnano;
-	int			mtime;
-	int			mnano;
+	uint64_t	atime;
+	uint64_t	anano;
+	uint64_t	ctime;
+	uint64_t	cnano;
+	uint64_t	mtime;
+	uint64_t	mnano;
 }				t_time;
 
 typedef struct	s_id
@@ -77,7 +77,7 @@ void			print_total(t_list *list);
 void			print_name(char *name, bool is_lnk);
 void			print_ls(t_list *list, t_arg *arg_list);
 void			print_nlink(uint16_t nlink);
-void			print_time(int file_time);
+void			print_time(uint64_t file_time);
 int				nbrlen(uint64_t nbr);
 
 /*

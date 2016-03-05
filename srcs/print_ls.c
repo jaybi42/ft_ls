@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/05 16:01:09 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/05 17:54:41 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,16 @@ static void		print_ID(t_file *file, bool g, bool n)
 {
 	if (g == 0)
 	{
-		if (n == 1 || file->user_id == NULL)
-			ft_putnbr(file->nuser_id);
+		if (n == 1 || file->id.user_id == NULL)
+			ft_putnbr(file->id.nuser_id);
 		else
-			ft_putstr(file->user_id);
+			ft_putstr(file->id.user_id);
 	}
 	ft_putstr("  ");
-	if (n == 1 || file->user_id == NULL)
-		ft_putnbr(file->ngp_id);
+	if (n == 1 || file->id.user_id == NULL)
+		ft_putnbr(file->id.ngp_id);
 	else
-		ft_putstr(file->gp_id);
+		ft_putstr(file->id.gp_id);
 	ft_putstr("  ");
 }
 
@@ -85,6 +85,7 @@ static int		print_mode(uint16_t mode, int ino, bool h)
 			ft_putchar('-');
 		i++;
 	}
+	ft_putstr("  ");
 //	put_whitespace();
 	return (0);
 }
@@ -111,11 +112,11 @@ void			print_ls(t_list *list, t_arg *arg_list)
 			print_ID(file, arg_list->arg[6], arg_list->arg[10]);
 			print_size(file->size, arg_list->arg[7]);
 			if (arg_list->arg[13] == 1)
-				print_time(file->atime);
+				print_time(file->time.atime);
 			else if (arg_list->arg[3] == 1)
-				print_time(file->ctime);
+				print_time(file->time.ctime);
 			else
-				print_time(file->mtime);
+				print_time(file->time.mtime);
 		}
 		print_name(file->name, S_ISLNK(file->mode));
 		list = list->next;

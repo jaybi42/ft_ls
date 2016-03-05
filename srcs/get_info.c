@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/19 19:10:05 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/05 16:39:35 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/05 17:53:52 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,15 @@ static void		stat_grpw(t_file *file, gid_t st_gid, uid_t st_uid)
 	struct group	*gr;
 	struct passwd	*pw;
 
+	ft_bzero(&(file->id), sizeof(t_id));
 	gr = getgrgid(st_gid);
 	if (gr != NULL)
-		file->gp_id = gr->gr_name;
+		file->id.gp_id = gr->gr_name;
+	file->id.ngp_id = st_gid;
 	pw = getpwuid(st_uid);
 	if (pw != NULL)
-		file->user_id = pw->pw_name;
+		file->id.user_id = pw->pw_name;
+	file->id.nuser_id = st_uid;
 }
 
 static void		stat_dev(dev_t dev, t_file *file)
@@ -48,9 +51,16 @@ static void		stat_dev(dev_t dev, t_file *file)
 	file->major = (dev >> 8) % 255;
 }
 
-static void		stat_time(t_file *file, time_t atime, time_t ctime, time_t mtime)
+static void		stat_time(t_file *file, struct timespec atime,
+						  struct timespec ctime, struct timespec mtime)
 {
-
+	ft_bzero(&(file->time), sizeof(t_time));
+	file->time.atime = atime.tv_sec;
+	file->time.anano = atime.tv_nsec;
+	file->time.ctime = ctime.tv_sec;
+	file->time.cnano = ctime.tv_nsec;
+	file->time.mtime = mtime.tv_sec;
+	file->time.mnano = mtime.tv_nsec;
 }
 
 int			get_stat(char *path, t_file *file)
@@ -60,8 +70,8 @@ int			get_stat(char *path, t_file *file)
 
 	ft_bzero(file, sizeof(t_file));
 	file->path = ft_strdup(path);
-	if (path != NULL)
-		ft_strdel(&path);
+//	if (path != NULL)
+//		ft_strdel(&path);
 	file->name = name_from_path(path);
 	ret_stat = lstat(file->path, &stat);
 	if (ret_stat == -1 && errno == 2)
@@ -72,7 +82,7 @@ int			get_stat(char *path, t_file *file)
 	else if (ret_stat == -1)
 		return (ERRORNO);
 	stat_grpw(file, stat.st_gid, stat.st_uid);
-	stat_time(file, stat.st_mtime, stat.st_ctime, stat.st_atime);
+	stat_time(file, stat.st_mtimespec, stat.st_ctimespec, stat.st_atimespec);
 	stat_dev(stat.st_dev, file);
 	file->mode = stat.st_mode;
 	file->nb_link = stat.st_nlink;

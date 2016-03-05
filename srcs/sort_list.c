@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/22 15:40:27 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/04 17:19:24 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/05 17:45:41 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ static void sort_time(t_list **list, bool crescent)
 		link = begin;
 		while (tamp != NULL)
 		{
-			if (crescent && ((t_file *)tamp->content)->mtime >
-							((t_file *)link->content)->mtime)
+			if (crescent && ((t_file *)tamp->content)->time.mtime >
+							((t_file *)link->content)->time.mtime)
 				link = tamp;
-			else if (!crescent && ((t_file *)tamp->content)->mtime <
-									((t_file *)link->content)->mtime)
+			else if (!crescent && ((t_file *)tamp->content)->time.mtime <
+									((t_file *)link->content)->time.mtime)
 				link = tamp;
 			tamp = tamp->next;
 		}
