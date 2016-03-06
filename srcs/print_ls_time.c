@@ -6,14 +6,14 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/02 15:59:44 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/05 18:15:45 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/06 15:53:07 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include <time.h>
 
-static char const g_month[10][3] = {
+static char const *g_month[12] = {
 	"Jan",
 	"Feb",
 	"Mar",
@@ -25,54 +25,36 @@ static char const g_month[10][3] = {
 	"Sep",
 	"Oct",
 	"Nov",
-	"Dec",
-};
-
-static char const g_day[7][3] = {
-	"Mon",
-	"Tue",
-	"Wed",
-	"Thu",
-	"Fri",
-	"Sat",
-	"Sun",
+	"Dec"
 };
 
 void			print_time(uint64_t file_time)
 {
 	time_t		get_time;
 	time_t		t;
-	int			i;
 	int			year;
+	int			ret;
 
-	year = 0;
-	i = 0;
+	year = 1970;
 	get_time = time(&t);
-	printf("\n%ld\n", t);
-	printf("%llu\n", file_time);
-	while (file_time > 31556926)
+	year = year + file_time / 31556926;
+	file_time %= 31556926;
+	ft_putstr(g_month[file_time / 2629743]);
+	ret = (ABS(file_time - t));
+	ft_putchar(' ');
+	file_time %= 2629743;
+	ft_putnbr(file_time / 86400);
+	nbrlen(file_time / 86400) == 1 ? ft_putchar(' ') : ft_putstr("  ");
+	file_time %= 86400;
+	if (ret > 15778463)
 	{
-		year++;
-		file_time %= 31556926;
-	}
-	while (file_time > 2629743)
-	{
-		file_time %= 2629743;
-		i++;
-	}
-	ft_putstr(g_month[i]);
-	while (file_time > 2629743)
-	{
-		file_time %= 2629743;
-		i++;
-	}
-	ft_putstr(g_month[i]);
-	if ((ABS(file_time - t)) > 15778463)
-	{
-		ft_putstr(g_year[year]);
+		ft_putnbr(year);
+		ft_putchar(' ');
 		return ;
 	}
-	//print hour
-	//print minute
-
+	ft_putnbr(file_time / 3600);
+	file_time %= 3600;
+	ft_putchar(':');
+	ft_putnbr(file_time / 60);
+	ft_putchar(' ');
 }

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/05 17:54:41 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/06 15:57:15 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,11 @@ void			print_ls(t_list *list, t_arg *arg_list)
 			print_ID(file, arg_list->arg[6], arg_list->arg[10]);
 			print_size(file->size, arg_list->arg[7]);
 			if (arg_list->arg[13] == 1)
-				print_time(file->time.atime);
-			else if (arg_list->arg[3] == 1)
-				print_time(file->time.ctime);
-			else
 				print_time(file->time.mtime);
+			else if (arg_list->arg[3] == 1)
+				print_time(file->time.atime);
+			else
+				print_time(file->time.ctime);
 		}
 		print_name(file->name, S_ISLNK(file->mode));
 		list = list->next;
