@@ -6,11 +6,12 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/02 18:02:25 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/05 15:27:46 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/06 18:38:29 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include <unistd.h>
 
 void	print_dirname(t_list *link)
 {
@@ -28,7 +29,8 @@ void	print_dirname(t_list *link)
 		ft_putendl(": No such file or directory");
 	}
 	else
-		print_name(((t_file *)link->content)->name, 0);
+		print_name(((t_file *)link->content)->path,
+				   ((t_file *)link->content)->name, 0);
 }
 
 int		nbrlen(uint64_t nbr)
@@ -59,14 +61,21 @@ void	print_total(t_list *list)
 	ft_putchar('\n');
 }
 
-void	print_name(char *name, bool is_lnk)
+void	print_name(char *path, char *name, bool is_lnk)
 {
+	char		buff[1024];
+	ssize_t		len;
+
 	if (name != NULL)
 		ft_putstr(name);
 	if (is_lnk == 1)
 	{
+		len = readlink(path, buff, sizeof(buff) - 1);
+		if (len == -1)
+			ERRORNO;
 		ft_putstr(" -> ");
-		ft_putstr(name);
+		buff[len] = '\0';
+		ft_putstr(buff);
 	}
 	ft_putchar('\n');
 }

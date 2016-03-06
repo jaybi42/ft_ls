@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/05 18:12:51 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/06 18:34:50 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct	s_file
 	int			minor;
 	t_id		id;
 	t_time		time;
+	int			len;
 }				t_file;
 
 typedef struct	s_arg
@@ -74,7 +75,7 @@ typedef struct	s_arg
 
 void			print_dirname(t_list *link);
 void			print_total(t_list *list);
-void			print_name(char *name, bool is_lnk);
+void			print_name(char *path, char *name, bool is_lnk);
 void			print_ls(t_list *list, t_arg *arg_list);
 void			print_nlink(uint16_t nlink);
 void			print_time(uint64_t file_time);

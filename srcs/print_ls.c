@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/06 15:57:15 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/06 19:19:30 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,25 @@ static void		print_size(uint64_t size, bool h)
 {
 	char const	base[] = "bKMG";
 	int			i;
+	uint64_t	comma;
 
+	comma = size;
 	i = 0;
 	if (h == 1)
 	{
 		while (size > 1000)
 		{
 			size /= 1000;
+			if (i != 0)
+				comma /= 1000;
 			i++;
 		}
 		ft_putnbr(size);
+		if (i != 0)
+		{
+			ft_putchar('.');
+			ft_putnbr((comma % 1000) / 100);
+		}
 		ft_putchar(base[i]);
 	}
 	else
@@ -64,18 +73,13 @@ static void		print_ID(t_file *file, bool g, bool n)
 	ft_putstr("  ");
 }
 
-static int		print_mode(uint16_t mode, int ino, bool h)
+static int		print_mode(uint16_t mode)
 {
 	char const	base[] = "-rwxrwxrwx";
 	char const	type[] = "-pc-d-b---l-s----";
 	int			i;
 
 	i = 1;
-	if (h == 1)
-	{
-		ft_putnbr(ino);
-		return (0);
-	}
 	ft_putchar(type[((mode >> 12) > 16 ? 0 : mode >> 12)]);
 	while (i < 10)
 	{
@@ -86,8 +90,16 @@ static int		print_mode(uint16_t mode, int ino, bool h)
 		i++;
 	}
 	ft_putstr("  ");
-//	put_whitespace();
 	return (0);
+}
+
+static void		print_ino(int ino, bool h)
+{
+	if (h == 1)
+	{
+		ft_putnbr(ino);
+		ft_putchar(' ');
+	}
 }
 
 void			print_ls(t_list *list, t_arg *arg_list)
@@ -105,9 +117,10 @@ void			print_ls(t_list *list, t_arg *arg_list)
 			list = list->next;
 			continue ;
 		}
-		else if (list != NULL && arg_list->arg[9] == 1)
+		print_ino(file->ino, arg_list->arg[8]);
+		if (list != NULL && arg_list->arg[9] == 1)
 		{
-			print_mode(file->mode, file->ino, arg_list->arg[8]);
+			print_mode(file->mode);
 			print_nlink(file->nb_link);
 			print_ID(file, arg_list->arg[6], arg_list->arg[10]);
 			print_size(file->size, arg_list->arg[7]);
@@ -118,7 +131,7 @@ void			print_ls(t_list *list, t_arg *arg_list)
 			else
 				print_time(file->time.ctime);
 		}
-		print_name(file->name, S_ISLNK(file->mode));
+		print_name(file->path, file->name, S_ISLNK(file->mode));
 		list = list->next;
 	}
 }
