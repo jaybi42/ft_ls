@@ -6,26 +6,11 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/22 15:40:27 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/05 17:45:41 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/10 16:54:20 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
-static void test_list(t_list **begin_list)
-{
-    t_list *drive;
-
-    drive = *begin_list;
-	while (drive != NULL)
-	{
-		if (S_ISDIR(((t_file *)drive->content)->mode) == 1)
-			printf("\n%s:\n", ((t_file *)drive->content)->name);
-		else
-			printf("%s\n", ((t_file *)drive->content)->name);
-		drive = drive->next;
-	}
-}
 
 static void link_to_front(t_list **list, t_list *link)
 {
@@ -44,7 +29,6 @@ static void sort_time(t_list **list, bool crescent)
 	t_list	*tamp;
 	t_list	*link;
 	t_list	*begin;
-
 
 	begin = *list;
 	while (begin != NULL)
@@ -66,7 +50,6 @@ static void sort_time(t_list **list, bool crescent)
 		if (link != *list)
 			link_to_front(list, link);
 	}
-	return ;
 }
 
 static void sort_lexi(t_list **list, bool crescent)
@@ -74,7 +57,6 @@ static void sort_lexi(t_list **list, bool crescent)
 	t_list	*tamp;
 	t_list	*link;
 	t_list	*begin;
-
 
 	begin = *list;
 	while (begin != NULL)

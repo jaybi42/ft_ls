@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/19 19:10:05 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/06 18:31:23 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/10 15:50:05 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,15 @@ int			get_stat(char *path, t_file *file)
 	struct stat		stat;
 
 	ft_bzero(file, sizeof(t_file));
-	file->path = ft_strdup(path);
-//	if (path != NULL)
-//		ft_strdel(&path);
+//	file->path = ft_strdup(path);
+	file->path = path;
 	file->name = name_from_path(path);
 	ret_stat = lstat(file->path, &stat);
-	if (ret_stat == -1 && errno == ENOENT)
+	if (ret_stat == -1)
 	{
-		file->is_fake = 1;
+		file->error = errorno;
 		return (0);
 	}
-	else if (ret_stat == -1)
-		return (ERRORNO);
 	stat_grpw(file, stat.st_gid, stat.st_uid);
 	stat_time(file, stat.st_mtimespec, stat.st_ctimespec, stat.st_atimespec);
 	stat_dev(stat.st_dev, file);

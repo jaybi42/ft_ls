@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/05 16:09:16 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/10 16:47:26 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,6 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <stdlib.h>
-
-static void test_list(t_list **begin_list)
-{
-	t_list *drive;
-
-	drive = *begin_list;
-	while (drive != NULL)
-	{
-		if (S_ISDIR(((t_file *)drive->content)->mode) == 1)
-			printf("\n%s:\n", ((t_file *)drive->content)->name);
-		else
-			printf("%s\n", ((t_file *)drive->content)->name);
-		drive = drive->next;
-	}
-	printf("----------------------\n");
-}
 
 static int			can_add(char *str, t_arg *arg_list)
 {
@@ -71,7 +55,7 @@ static int			add_list(char *path, t_list **new_list)
 	if (*new_list == NULL)
 	{
 		if (get_stat(path, &file) == 1)
-			return (ERROR);
+			return (1);
 		*new_list = ft_lstnew((void *)&file, sizeof(t_file));
 		if (*new_list == NULL)
 			return (ERROR);
@@ -79,7 +63,7 @@ static int			add_list(char *path, t_list **new_list)
 	else
 	{
 		if (get_stat(path, &file) == 1)
-			return (ERROR);
+			return (1);
 		tamp = ft_lstnew((void *)&file, sizeof(t_file));
 		if (tamp == NULL)
 			return (ERROR);
@@ -112,41 +96,28 @@ static int			make_list(char *path, t_arg *arg_list, t_list **new_list)
 	return (0);
 }
 
-void			free_list(void *content, size_t size)
-{
-	(void)size;
-	if (content != NULL)
-	{
-		if (((t_file *)content)->path != NULL)
-			ft_strdel(&((t_file *)content)->path);
-		free(content);
-		content = NULL;
-	}
-}
-
 int				base_list(t_list *list, t_arg *arg_list)
 {
 	t_list	*link;
 	t_list	*new_list;
+	int		ret;
 
-	print_dirname(list);
 	link = list;
 	new_list = NULL;
-	if (link == NULL)
-		printf("\n\033[31m[NULL]\n\033[0m");
 	while (link != NULL)
 	{
 		if (S_ISDIR(((t_file *)link->content)->mode) == 1)
 		{
-//			printf("%s", ((t_file *)link->content)->path);
-			make_list(((t_file *)link->content)->path, arg_list, &new_list);
-//			printf("\n\033[31m[%s]\n\033[0m", file.name);
-//			test_list(&new_list);
+			ret = make_list(((t_file *)link->content)->path, arg_list, &new_list);
+			if (ret == 1)
+				print_error(((t_file *)link->content)->name,
+							((t_file *)link->content)->error);
 			sort_list(&new_list, arg_list);
+			ft_putstr(((t_file *)link->content)->path);
+			ft_putendl(":");
+			print_ls(new_list, arg_list);
 			if (arg_list->arg[1] == 1)
 				base_list(new_list, arg_list);
-			else
-				print_ls(new_list, arg_list);
 		}
 		if (new_list != NULL)
 			ft_lstdel(&new_list, free_list);

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/02 15:59:44 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/06 15:53:07 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/07 18:21:14 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void			print_time(uint64_t file_time)
 	time_t		get_time;
 	time_t		t;
 	int			year;
-	int			ret;
+	uint64_t	ret;
 
 	year = 1970;
 	get_time = time(&t);
@@ -44,17 +44,16 @@ void			print_time(uint64_t file_time)
 	ft_putchar(' ');
 	file_time %= 2629743;
 	ft_putnbr(file_time / 86400);
-	nbrlen(file_time / 86400) == 1 ? ft_putchar(' ') : ft_putstr("  ");
-	file_time %= 86400;
+	file_time / 86400 < 10 ? ft_putchar(' ') : ft_putstr("  ");
 	if (ret > 15778463)
-	{
 		ft_putnbr(year);
-		ft_putchar(' ');
-		return ;
+	else
+	{
+		file_time %= 86400;
+		ft_putnbr(file_time / 3600);
+		file_time %= 3600;
+		ft_putchar(':');
+		ft_putnbr(file_time / 60);
 	}
-	ft_putnbr(file_time / 3600);
-	file_time %= 3600;
-	ft_putchar(':');
-	ft_putnbr(file_time / 60);
 	ft_putchar(' ');
 }

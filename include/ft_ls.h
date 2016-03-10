@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/06 18:34:50 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/10 16:49:21 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct	s_file
 {
 	char		*path;
 	char		*name;
-	bool		is_fake;
+	int			error;
 	uint8_t		namelen;
 	uint16_t	mode;
 	uint16_t	nb_link;
@@ -73,13 +73,10 @@ typedef struct	s_arg
 **Desc: print ls with options
 */
 
-void			print_dirname(t_list *link);
-void			print_total(t_list *list);
-void			print_name(char *path, char *name, bool is_lnk);
 void			print_ls(t_list *list, t_arg *arg_list);
-void			print_nlink(uint16_t nlink);
+void			print_ls_ext(t_file *file, t_arg *arg_list);
 void			print_time(uint64_t file_time);
-int				nbrlen(uint64_t nbr);
+void			print_error(char *name, int error);
 
 /*
 **Name: Parsing
@@ -91,6 +88,7 @@ int				base_list(t_list *list, t_arg *arg_list);
 int				sort_argv(t_list **list);
 int				argv_to_list(char **argv, int argi, t_arg *arg_list);
 int				sort_list(t_list **list, t_arg *arg_list);
+void			free_list(void *content, size_t size);
 
 /*
 **Name: Get info

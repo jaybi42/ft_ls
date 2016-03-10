@@ -6,100 +6,57 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/06 19:19:30 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/10 16:37:45 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include <unistd.h>
 #include <errno.h>
 #include <string.h>
 
-static void		print_error(char *name)
+static void		print_error(char *name, int error)
 {
 	if (name == NULL)
 		return ;
 	ft_putstr("ls: ");
 	ft_putstr(name);
 	ft_putstr(": ");
-	ft_putendl("No such file or directory");
+	ft_putendl(strerror(error));
 }
 
-
-
-static void		print_size(uint64_t size, bool h)
+static void		print_total(t_list *list)
 {
-	char const	base[] = "bKMG";
-	int			i;
-	uint64_t	comma;
+	uint64_t size;
 
-	comma = size;
-	i = 0;
-	if (h == 1)
+	size = 0;
+	while (list != NULL)
 	{
-		while (size > 1000)
-		{
-			size /= 1000;
-			if (i != 0)
-				comma /= 1000;
-			i++;
-		}
-		ft_putnbr(size);
-		if (i != 0)
-		{
-			ft_putchar('.');
-			ft_putnbr((comma % 1000) / 100);
-		}
-		ft_putchar(base[i]);
+		size = size + (((t_file *)list->content)->size);
+		list = list->next;
 	}
-	else
-		ft_putnbr(size);
-	ft_putstr(" ");
+	ft_putstr("total ");
+	ft_putnbr(size / 512);
+	ft_putchar('\n');
 }
 
-static void		print_ID(t_file *file, bool g, bool n)
+static void		print_name(char *path, char *name, bool is_lnk)
 {
-	if (g == 0)
-	{
-		if (n == 1 || file->id.user_id == NULL)
-			ft_putnbr(file->id.nuser_id);
-		else
-			ft_putstr(file->id.user_id);
-	}
-	ft_putstr("  ");
-	if (n == 1 || file->id.user_id == NULL)
-		ft_putnbr(file->id.ngp_id);
-	else
-		ft_putstr(file->id.gp_id);
-	ft_putstr("  ");
-}
+	char		buff[1024];
+	ssize_		len;
 
-static int		print_mode(uint16_t mode)
-{
-	char const	base[] = "-rwxrwxrwx";
-	char const	type[] = "-pc-d-b---l-s----";
-	int			i;
-
-	i = 1;
-	ft_putchar(type[((mode >> 12) > 16 ? 0 : mode >> 12)]);
-	while (i < 10)
+	if (name != NULL)
+		ft_putstr(name);
+	if (is_lnk == 1)
 	{
-		if ((mode >> (9 - i)) & 1)
-			ft_putchar(base[i]);
-		else
-			ft_putchar('-');
-		i++;
+		len = readlink(path, buff, sizeof(buff) - 1);
+		if (len == -1)
+			ERRORNO;
+		ft_putstr(" -> ");
+		buff[len] = '\0';
+		ft_putstr(buff);
 	}
-	ft_putstr("  ");
-	return (0);
-}
-
-static void		print_ino(int ino, bool h)
-{
-	if (h == 1)
-	{
-		ft_putnbr(ino);
-		ft_putchar(' ');
-	}
+	ft_putchar('\n');
 }
 
 void			print_ls(t_list *list, t_arg *arg_list)
@@ -111,26 +68,19 @@ void			print_ls(t_list *list, t_arg *arg_list)
 	while (list != NULL)
 	{
 		file = ((t_file *)list->content);
-		if (file->is_fake == 1)
+		if (file->error != 0)
 		{
-			print_error(file->name);
+			print_error(file->name, file->error);
 			list = list->next;
 			continue ;
 		}
-		print_ino(file->ino, arg_list->arg[8]);
-		if (list != NULL && arg_list->arg[9] == 1)
+		else if (arg_list->arg[8] == 1)
 		{
-			print_mode(file->mode);
-			print_nlink(file->nb_link);
-			print_ID(file, arg_list->arg[6], arg_list->arg[10]);
-			print_size(file->size, arg_list->arg[7]);
-			if (arg_list->arg[13] == 1)
-				print_time(file->time.mtime);
-			else if (arg_list->arg[3] == 1)
-				print_time(file->time.atime);
-			else
-				print_time(file->time.ctime);
+			ft_putnbr(file->ino);
+			ft_putchar(' ');
 		}
+		if (list != NULL && arg_list->arg[9] == 1)
+			print_ls_ext;
 		print_name(file->path, file->name, S_ISLNK(file->mode));
 		list = list->next;
 	}
