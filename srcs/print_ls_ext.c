@@ -6,11 +6,12 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/02 18:02:25 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/10 16:45:44 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/10 18:53:37 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include <string.h>
 
 static void		print_size(uint64_t size, bool h)
 {

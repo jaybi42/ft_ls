@@ -6,24 +6,13 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/10 16:37:45 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/10 18:49:44 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include <unistd.h>
 #include <errno.h>
-#include <string.h>
-
-static void		print_error(char *name, int error)
-{
-	if (name == NULL)
-		return ;
-	ft_putstr("ls: ");
-	ft_putstr(name);
-	ft_putstr(": ");
-	ft_putendl(strerror(error));
-}
 
 static void		print_total(t_list *list)
 {
@@ -43,7 +32,7 @@ static void		print_total(t_list *list)
 static void		print_name(char *path, char *name, bool is_lnk)
 {
 	char		buff[1024];
-	ssize_		len;
+	ssize_t		len;
 
 	if (name != NULL)
 		ft_putstr(name);
@@ -80,7 +69,7 @@ void			print_ls(t_list *list, t_arg *arg_list)
 			ft_putchar(' ');
 		}
 		if (list != NULL && arg_list->arg[9] == 1)
-			print_ls_ext;
+			print_ls_ext(file, arg_list);
 		print_name(file->path, file->name, S_ISLNK(file->mode));
 		list = list->next;
 	}

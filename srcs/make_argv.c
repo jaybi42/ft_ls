@@ -6,13 +6,14 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/10 16:47:00 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/10 18:46:13 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include <sys/types.h>
 #include <errno.h>
+#include <stdlib.h>
 
 void		free_list(void *content, size_t size)
 {
@@ -26,21 +27,14 @@ void		free_list(void *content, size_t size)
 	}
 }
 
-static void	one_list()
+static int	one_list(t_list *list, t_arg *arg_list)
 {
-	While ()
-	{
-		print_ls(list, arg_list);
-		while (S_ISDIR(mode) == 1)
-		{
-			make_list();
-			base_list(begin_list, arg_list);
-		}
-	}
-
+	(void)list;
+	(void)arg_list;
+	return (0);
 }
 
-static void	print_argv(t_list *list, t_arg *arg_list)
+static int	print_argv(t_list *list, t_arg *arg_list)
 {
 	t_file	*file;
 	int		ret;
@@ -86,6 +80,7 @@ int			argv_to_list(char **argv, int argi, t_arg *arg_list)
 		if (arg_list->arg[5] == 0 && sort_argv(&begin_list) == 1)
 			return (1);
 	}
-	print_argv(begin_list, arg_list);
+	if (print_argv(begin_list, arg_list) == 1)
+		return (1);
 	return (0);
 }
