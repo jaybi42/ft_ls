@@ -14,6 +14,31 @@
 #include <unistd.h>
 #include <errno.h>
 
+static void		get_space(t_list *list)
+{
+	int		spaces[6] = {0, 0, 0, 0, 0, 0};
+	int		ret;
+	file	*file;
+
+	while (list != NULL)
+	{
+		file = (t_file *)list->content;
+		if ((ret = ft_nbrlen(file->ino)) > spaces[0])
+			spaces[0] = ret;
+		if((ret = ft_strlen(file->id.gp_id)) > spaces[1])
+			spaces[1] = ret;
+		if((ret = ft_strlen(file->id.user_id)) > spaces[2])
+			spaces[2] = ret;
+		if((ret = ft_nbrlen(file->id.ngp_id)) > spaces[3])
+			spaces[3] = ret;
+		if((ret = ft_nbrlen(file->id.nuser_id)) > spaces[4])
+			spaces[4] = ret;
+		if((ret = ft_nbrlen(file->size)) > spaces[5])
+			spaces[5] = ret;
+		list = list->next;
+	}
+}
+
 static void		print_total(t_list *list)
 {
 	uint64_t size;
