@@ -13,7 +13,7 @@
 ##=-  Compilatator -=##
 
 NAME = ft_ls
-CC = clang
+CC = gcc
 
 
 ##=-  FLAGS -=##

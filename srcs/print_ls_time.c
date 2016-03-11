@@ -13,47 +13,78 @@
 #include "ft_ls.h"
 #include <time.h>
 
-static char const *g_month[12] = {
-	"Jan",
-	"Feb",
-	"Mar",
-	"Apr",
-	"May",
-	"Jun",
-	"Jul",
-	"Aou",
-	"Sep",
-	"Oct",
-	"Nov",
-	"Dec"
-};
+static void		print_hm(char *str)
+{
+	//"Wed Jun 30 21:49:08 1993\n"
+	while(ft_isdigit(*str) == 1)
+	{
+		ft_putchar(*str);
+		str++;
+	}
+	ft_putchar(':');
+	str++;
+	while(ft_isdigit(*str) == 1)
+	{
+		ft_putchar(*str);
+		str++;
+	}
+	ft_putchar(' ');
+}
+
+static void		print_year(char *str)
+{
+	while(*str != '\0')
+		str++;
+	str -= 4;
+	while(ft_isdigit(str))
+	{
+		ft_putchar(*str);
+		str++;
+	}
+	ft_putchar(' ');
+}
+
+
+static char		*print_md(char *str)
+{
+	while(ft_isascii(*str) == 1)
+	{
+		ft_putchar(*str);
+		str++;
+	}
+	while(*str == ' ')
+		str++;
+	ft_putchar(' ');
+	while(ft_isascii(*str) == 1)
+	{
+		ft_putchar(*str);
+		str++;
+	}
+	ft_putchar(' ');
+	while(ft_isdigit(*str) == 1)
+	{
+		ft_putchar(*str);
+		str++;
+	}
+	ft_putchar(' ');
+	while(*str == ' ')
+		str++;
+	return (str);
+}
 
 void			print_time(uint64_t file_time)
 {
 	time_t		get_time;
 	time_t		t;
-	int			year;
-	uint64_t	ret;
-
-	year = 1970;
+	char		*str;
+	
+	str = ctime(file_time);
 	get_time = time(&t);
-	year = year + file_time / 31556926;
-	file_time %= 31556926;
-	ft_putstr(g_month[file_time / 2629743]);
-	ret = (ABS(file_time - t));
-	ft_putchar(' ');
-	file_time %= 2629743;
-	ft_putnbr(file_time / 86400);
-	file_time / 86400 < 10 ? ft_putchar(' ') : ft_putstr("  ");
-	if (ret > 15778463)
-		ft_putnbr(year);
+//"Wed Jun 30 21:49:08 1993\n"
+	str = print_md(str);
+	if (ABS((file_time - t)) > 15778463)
+		print_year(str);
 	else
-	{
-		file_time %= 86400;
-		ft_putnbr(file_time / 3600);
-		file_time %= 3600;
-		ft_putchar(':');
-		ft_putnbr(file_time / 60);
-	}
-	ft_putchar(' ');
+		print_hm(str);
+		
 }
