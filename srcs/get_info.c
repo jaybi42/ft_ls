@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/19 19:10:05 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/14 17:51:43 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/14 18:54:40 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,12 @@ static void		stat_grpw(t_file *file, gid_t st_gid, uid_t st_uid)
 	file->id.nuser = st_uid;
 }
 
-static void		stat_dev(dev_t dev, t_file *file)
+static void		stat_dev(dev_t rdev, t_file *file)
 {
-//	printf("dev: [%i]\n", dev);
-	file->minor = dev % 255;
-	file->major = (dev >> 8) % 255;
+	file->maxlen.minor = ft_nbrlen(minor(rdev));
+	file->minor = minor(rdev);
+	file->maxlen.major = ft_nbrlen(major(rdev));
+	file->major = major(rdev);
 }
 
 static void		stat_time(t_file *file, struct timespec atime,
@@ -76,7 +77,7 @@ int			get_stat(char *path, t_file *file)
 	struct stat		stat;
 
 	ft_bzero(file, sizeof(t_file));
-//	file->path = ft_strdup(path);
+//	file->path = ft_strdup(path); needed ?
 	file->path = path;
 	file->name = name_from_path(path);
 	ret_stat = lstat(file->path, &stat);
@@ -87,7 +88,7 @@ int			get_stat(char *path, t_file *file)
 	}
 	stat_grpw(file, stat.st_gid, stat.st_uid);
 	stat_time(file, stat.st_mtimespec, stat.st_ctimespec, stat.st_atimespec);
-	stat_dev(stat.st_dev, file);
+	stat_dev(stat.st_rdev, file);
 	file->mode = stat.st_mode;
 	file->nb_link = stat.st_nlink;
 	file->size = stat.st_size;

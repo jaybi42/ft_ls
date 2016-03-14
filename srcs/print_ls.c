@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/14 17:58:59 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/14 18:57:03 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ static void		get_maxlen(bool n, t_list *list, t_maxlen *maxlen)
 			maxlen->size = ft_nbrlen(file->size);
 		if (maxlen->nb_link < ft_nbrlen(file->nb_link))
 			maxlen->nb_link = ft_nbrlen(file->nb_link);
+		if (maxlen->major < ft_nbrlen(file->major))
+			maxlen->major = ft_nbrlen(file->major);
+		if (maxlen->minor < ft_nbrlen(file->minor))
+			maxlen->minor = ft_nbrlen(file->minor);
 		list = list->next;
 	}
 }

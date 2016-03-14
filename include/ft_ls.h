@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/14 17:11:36 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/14 18:57:19 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef struct	s_maxlen
 	int			ino;
 	int			size;
 	int			nb_link;
+	int			major;
+	int			minor;
 }				t_maxlen;
 
 typedef struct	s_time

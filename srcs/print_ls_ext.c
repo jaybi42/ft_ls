@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/02 18:02:25 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/14 17:57:41 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/14 18:58:55 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,25 +93,14 @@ static int		print_mode(uint16_t mode)
 
 static void		print_majmin(int major, int minor)
 {
-	char	*str;
-	int		i;
-
-	i = 0;
-	str = ft_itoa_base(major, 10);
-	i = ft_strlen(str);
-	i -= 4;
+//to work on spaces
+	ft_putnbr(major);
 	while (i-- > 0)
 		ft_putchar(' ');
-	ft_putstr(str);
 	ft_putstr(", ");
-	i = 0;
-	str = ft_itoa_base(minor, 10);
-	i = ft_strlen(str);
-	i -= 4;
+	ft_putnbr(minor);
 	while (i-- > 0)
 		ft_putchar(' ');
-	ft_putstr(str);
-	ft_putchar(' ');
 }
 
 void		print_ls_ext(t_file *file, t_arg *arg_list, t_maxlen *maxlen)
@@ -119,7 +108,6 @@ void		print_ls_ext(t_file *file, t_arg *arg_list, t_maxlen *maxlen)
 	int		i;
 
 	i = maxlen->nb_link - ft_nbrlen(file->nb_link);
-//	printf("major: [%i], minor: [%i]\n", file->major, file->minor);
 	print_mode(file->mode);
 	while (i-- > 0)
 		ft_putchar(' ');
