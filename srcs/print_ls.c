@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/10 18:49:44 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/14 14:57:04 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void		get_space(t_list *list)
 {
 	int		spaces[6] = {0, 0, 0, 0, 0, 0};
 	int		ret;
-	file	*file;
+	t_file	*file;
 
 	while (list != NULL)
 	{
@@ -98,4 +98,5 @@ void			print_ls(t_list *list, t_arg *arg_list)
 		print_name(file->path, file->name, S_ISLNK(file->mode));
 		list = list->next;
 	}
+	ft_putchar('\n');
 }

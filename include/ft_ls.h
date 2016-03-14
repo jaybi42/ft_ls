@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/10 16:49:21 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/14 15:32:50 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@
 
 typedef struct	s_time
 {
-	uint64_t	atime;
+	time_t		atime;
 	uint64_t	anano;
-	uint64_t	ctime;
+	time_t		ctime;
 	uint64_t	cnano;
-	uint64_t	mtime;
+	time_t		mtime;
 	uint64_t	mnano;
 }				t_time;
 
@@ -69,13 +69,13 @@ typedef struct	s_arg
 
 /*
 **Name: Print
-**File: print_ls.c print_ls_ext.c print_ls_time.c
+**File: print_ls.c print_ls_ext.c print_ls_time.c print_ls_error.c
 **Desc: print ls with options
 */
 
 void			print_ls(t_list *list, t_arg *arg_list);
 void			print_ls_ext(t_file *file, t_arg *arg_list);
-void			print_time(uint64_t file_time);
+void			print_time(time_t file_time);
 void			print_error(char *name, int error);
 
 /*
