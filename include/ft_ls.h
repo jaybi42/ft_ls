@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/14 15:32:50 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/14 17:11:36 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@
 
 # define ARG_INIT ((t_arg){{0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0 ,0}, 5, 0})
 
+typedef struct	s_maxlen
+{
+	int			gp;
+	int			user;
+	int			ino;
+	int			size;
+	int			nb_link;
+}				t_maxlen;
+
 typedef struct	s_time
 {
 	time_t		atime;
@@ -36,10 +45,12 @@ typedef struct	s_time
 
 typedef struct	s_id
 {
-	char		*gp_id;
-	char		*user_id;
-	int			ngp_id;
-	int			nuser_id;
+	char		*gp;
+	int			gp_len;
+	char		*user;
+	int			user_len;
+	int			ngp;
+	int			nuser;
 }				t_id;
 
 typedef struct	s_file
@@ -57,7 +68,6 @@ typedef struct	s_file
 	int			minor;
 	t_id		id;
 	t_time		time;
-	int			len;
 }				t_file;
 
 typedef struct	s_arg
@@ -74,7 +84,7 @@ typedef struct	s_arg
 */
 
 void			print_ls(t_list *list, t_arg *arg_list);
-void			print_ls_ext(t_file *file, t_arg *arg_list);
+void			print_ls_ext(t_file *file, t_arg *arg_list, t_maxlen *maxlen);
 void			print_time(time_t file_time);
 void			print_error(char *name, int error);
 

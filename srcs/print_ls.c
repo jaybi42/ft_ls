@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/14 14:57:04 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/14 17:58:59 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,28 @@
 #include <unistd.h>
 #include <errno.h>
 
-static void		get_space(t_list *list)
+static void		get_maxlen(bool n, t_list *list, t_maxlen *maxlen)
 {
-	int		spaces[6] = {0, 0, 0, 0, 0, 0};
-	int		ret;
 	t_file	*file;
 
+	ft_bzero(maxlen, sizeof(t_maxlen));
 	while (list != NULL)
 	{
 		file = (t_file *)list->content;
-		if ((ret = ft_nbrlen(file->ino)) > spaces[0])
-			spaces[0] = ret;
-		if((ret = ft_strlen(file->id.gp_id)) > spaces[1])
-			spaces[1] = ret;
-		if((ret = ft_strlen(file->id.user_id)) > spaces[2])
-			spaces[2] = ret;
-		if((ret = ft_nbrlen(file->id.ngp_id)) > spaces[3])
-			spaces[3] = ret;
-		if((ret = ft_nbrlen(file->id.nuser_id)) > spaces[4])
-			spaces[4] = ret;
-		if((ret = ft_nbrlen(file->size)) > spaces[5])
-			spaces[5] = ret;
+		if ((n == 1 || file->id.gp == NULL) && maxlen->gp < file->id.gp_len)
+			maxlen->gp = ft_nbrlen(file->id.ngp);
+		else if (n == 0 && maxlen->gp < ft_nbrlen(file->id.ngp))
+			maxlen->gp = file->id.gp_len;
+		if ((n == 1 || file->id.user == NULL) && maxlen->user < file->id.user_len)
+			maxlen->user = ft_nbrlen(file->id.nuser);
+		else if (n == 0 && maxlen->user < ft_nbrlen(file->id.nuser))
+			maxlen->user = file->id.user_len;
+		if (maxlen->ino < ft_nbrlen(file->ino))
+			maxlen->ino = ft_nbrlen(file->ino);
+		if (maxlen->size < ft_nbrlen(file->size))
+			maxlen->size = ft_nbrlen(file->size);
+		if (maxlen->nb_link < ft_nbrlen(file->nb_link))
+			maxlen->nb_link = ft_nbrlen(file->nb_link);
 		list = list->next;
 	}
 }
@@ -73,10 +74,23 @@ static void		print_name(char *path, char *name, bool is_lnk)
 	ft_putchar('\n');
 }
 
+static void		print_ino(int ino, int ino_maxlen)
+{
+	int i;
+
+	i = ino_maxlen - ft_nbrlen(ino);
+	ft_putnbr(ino);
+	while (i-- > 0)
+		ft_putchar(' ');
+	ft_putchar(' ');
+}
+
 void			print_ls(t_list *list, t_arg *arg_list)
 {
-	t_file	*file;
+	t_file		*file;
+	t_maxlen	maxlen;
 
+	get_maxlen(arg_list->arg[10], list, &maxlen);
 	if (list != NULL && arg_list->arg[9] == 1)
 		print_total(list);
 	while (list != NULL)
@@ -89,12 +103,9 @@ void			print_ls(t_list *list, t_arg *arg_list)
 			continue ;
 		}
 		else if (arg_list->arg[8] == 1)
-		{
-			ft_putnbr(file->ino);
-			ft_putchar(' ');
-		}
+			print_ino(file->ino, maxlen.ino);
 		if (list != NULL && arg_list->arg[9] == 1)
-			print_ls_ext(file, arg_list);
+			print_ls_ext(file, arg_list, &maxlen);
 		print_name(file->path, file->name, S_ISLNK(file->mode));
 		list = list->next;
 	}

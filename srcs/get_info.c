@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/19 19:10:05 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/10 16:56:41 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/14 17:51:43 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,23 @@ static void		stat_grpw(t_file *file, gid_t st_gid, uid_t st_uid)
 	ft_bzero(&(file->id), sizeof(t_id));
 	gr = getgrgid(st_gid);
 	if (gr != NULL)
-		file->id.gp_id = gr->gr_name;
-	file->id.ngp_id = st_gid;
+	{
+		file->id.gp = gr->gr_name;
+		file->id.gp_len = ft_strlen(gr->gr_name);
+	}
+	file->id.ngp = st_gid;
 	pw = getpwuid(st_uid);
 	if (pw != NULL)
-		file->id.user_id = pw->pw_name;
-	file->id.nuser_id = st_uid;
+	{
+		file->id.user = pw->pw_name;
+		file->id.user_len = ft_strlen(pw->pw_name);
+	}
+	file->id.nuser = st_uid;
 }
 
 static void		stat_dev(dev_t dev, t_file *file)
 {
+//	printf("dev: [%i]\n", dev);
 	file->minor = dev % 255;
 	file->major = (dev >> 8) % 255;
 }
