@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/14 18:57:19 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/15 21:37:33 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct	s_file
 	uint16_t	mode;
 	uint16_t	nb_link;
 	uint64_t	size;
+	uint64_t	blocks;
 	uint64_t	dev;
 	int			ino;
 	int			major;
@@ -96,6 +97,7 @@ void			print_error(char *name, int error);
 **Desc: Parse files
 */
 
+int				make_list(char *path, t_arg *arg_list, t_list **new_list);
 int				base_list(t_list *list, t_arg *arg_list);
 int				sort_argv(t_list **list);
 int				argv_to_list(char **argv, int argi, t_arg *arg_list);

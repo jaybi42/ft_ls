@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/10 16:47:26 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/15 21:25:05 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int			add_list(char *path, t_list **new_list)
 	return (0);
 }
 
-static int			make_list(char *path, t_arg *arg_list, t_list **new_list)
+int				make_list(char *path, t_arg *arg_list, t_list **new_list)
 {
 	DIR				*dir;
 	char			*new_path;

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/19 19:10:05 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/15 15:41:37 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/15 21:40:24 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int			get_stat(char *path, t_file *file)
 	struct stat		stat;
 
 	ft_bzero(file, sizeof(t_file));
-//	file->path = ft_strdup(path); needed ?
 	file->path = path;
 	file->name = name_from_path(path);
 	ret_stat = lstat(file->path, &stat);
@@ -86,5 +85,6 @@ int			get_stat(char *path, t_file *file)
 	file->nb_link = stat.st_nlink;
 	file->size = stat.st_size;
 	file->ino = stat.st_ino;
+	file->blocks = stat.st_blocks;
 		return (0);
 }

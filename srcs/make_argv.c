@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/10 18:46:13 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/15 21:22:04 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,30 @@ void		free_list(void *content, size_t size)
 
 static int	one_list(t_list *list, t_arg *arg_list)
 {
-	(void)list;
-	(void)arg_list;
-	return (0);
+    t_list  *link;
+    t_list  *new_list;
+    int     ret;
+
+    link = list;
+    new_list = NULL;
+    while (link != NULL)
+    {
+        if (S_ISDIR(((t_file *)link->content)->mode) == 1)
+        {
+            ret = make_list(((t_file *)link->content)->path, arg_list, &new_list);
+            if (ret == 1)
+                print_error(((t_file *)link->content)->name,
+                            ((t_file *)link->content)->error);
+            sort_list(&new_list, arg_list);
+			print_ls(new_list, arg_list);
+            if (arg_list->arg[1] == 1)
+                base_list(new_list, arg_list);
+        }
+        if (new_list != NULL)
+            ft_lstdel(&new_list, free_list);
+        link = link->next;
+    }
+    return (0);
 }
 
 static int	print_argv(t_list *list, t_arg *arg_list)

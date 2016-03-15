@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/15 16:37:20 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/15 21:41:05 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ static void		print_total(t_list *list)
 	size = 0;
 	while (list != NULL)
 	{
-		size = size + (((t_file *)list->content)->size);
+		size = size + (((t_file *)list->content)->blocks);
 		list = list->next;
 	}
 	ft_putstr("total ");
-	ft_putnbr(size / 512);
+	ft_putnbr(size);
 	ft_putchar('\n');
 }
 
