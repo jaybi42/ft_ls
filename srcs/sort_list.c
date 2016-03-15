@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/22 15:40:27 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/10 16:54:20 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/15 15:42:09 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ static void link_to_front(t_list **list, t_list *link)
 static bool	link_toswap(t_time link_t, t_time tamp_t, bool crescent)
 {
 	int		ret;
-	
+
 	if (link_t.mtime == tamp_t.mtime)
 		ret = (link_t.mnano > tamp_t.mnano);
 	else
-		ret = (link_t.mtime > tamp_t.mtime)	
+		ret = (link_t.mtime > tamp_t.mtime);
 	if (ret == 0 && crescent)
 		return (1);
 	else if (!crescent && ret == 1)

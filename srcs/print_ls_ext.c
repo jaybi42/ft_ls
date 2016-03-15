@@ -6,34 +6,39 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/02 18:02:25 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/14 18:58:55 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/15 15:49:49 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void		print_size(uint64_t size, bool h)
+static void		print_size(uint64_t size, bool h, t_maxlen *maxlen)
 {
-	char const	base[] = "bKMG";
+	char const	base[] = "BKMG";
 	int			i;
 	int			len;
 
-	i = ft_nbrlen(size) / 3;
 	if (h == 1)
 	{
-		len =  (3 - ft_nbrlen(size) % 3) % 3) + 1;
-		while (len--)
+		i = ft_nbrlen(size) / 3;
+		len = 5 - ft_nbrlen(size / ft_power(1000, i));
+		i != 0 ? len -= 2 : len;
+		while (len-- > 0)
 			ft_putchar(' ');
 		ft_putnbr(size / ft_power(1000, i));
 		if (i != 0)
-		{
 			ft_putchar('.');
+		if (i != 0)
 			ft_putnbr((size % ft_power(1000, i)) / 100);
-		}
 		ft_putchar(base[i]);
 	}
 	else
+	{
+		i = maxlen->size - ft_nbrlen(size) + 1;
+		while (i-- > 0)
+			ft_putchar(' ');
 		ft_putnbr(size);
+	}
 	ft_putchar(' ');
 }
 
@@ -99,6 +104,7 @@ static void		print_majmin(int major, int minor, t_maxlen *maxlen)
 	while (i-- > 0)
 		ft_putchar(' ');
 	ft_putnbr(minor);
+	ft_putchar(' ');
 }
 
 void		print_ls_ext(t_file *file, t_arg *arg_list, t_maxlen *maxlen)
@@ -113,9 +119,9 @@ void		print_ls_ext(t_file *file, t_arg *arg_list, t_maxlen *maxlen)
 	ft_putchar(' ');
 	print_id(file, arg_list->arg[6], arg_list->arg[10], maxlen);
 	if (S_ISCHR(file->mode) == 1 || S_ISBLK(file->mode) == 1)
-		print_majmin(file->major, file->minor);
+		print_majmin(file->major, file->minor, maxlen);
 	else
-		print_size(file->size, arg_list->arg[7]);
+		print_size(file->size, arg_list->arg[7], maxlen);
 	if (arg_list->arg[13] == 1)
 		print_time(file->time.mtime);
 	else if (arg_list->arg[3] == 1)

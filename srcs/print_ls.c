@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/14 18:57:03 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/15 16:37:20 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,31 @@
 #include <unistd.h>
 #include <errno.h>
 
-static void		get_maxlen(bool n, t_list *list, t_maxlen *maxlen)
+static void		get_maxlen(bool n, t_list *list, t_maxlen *ml)
 {
-	t_file	*file;
+	t_file	*f;
 
-	ft_bzero(maxlen, sizeof(t_maxlen));
 	while (list != NULL)
 	{
-		file = (t_file *)list->content;
-		if ((n == 1 || file->id.gp == NULL) && maxlen->gp < file->id.gp_len)
-			maxlen->gp = ft_nbrlen(file->id.ngp);
-		else if (n == 0 && maxlen->gp < ft_nbrlen(file->id.ngp))
-			maxlen->gp = file->id.gp_len;
-		if ((n == 1 || file->id.user == NULL) && maxlen->user < file->id.user_len)
-			maxlen->user = ft_nbrlen(file->id.nuser);
-		else if (n == 0 && maxlen->user < ft_nbrlen(file->id.nuser))
-			maxlen->user = file->id.user_len;
-		if (maxlen->ino < ft_nbrlen(file->ino))
-			maxlen->ino = ft_nbrlen(file->ino);
-		if (maxlen->size < ft_nbrlen(file->size))
-			maxlen->size = ft_nbrlen(file->size);
-		if (maxlen->nb_link < ft_nbrlen(file->nb_link))
-			maxlen->nb_link = ft_nbrlen(file->nb_link);
-		if (maxlen->major < ft_nbrlen(file->major))
-			maxlen->major = ft_nbrlen(file->major);
-		if (maxlen->minor < ft_nbrlen(file->minor))
-			maxlen->minor = ft_nbrlen(file->minor);
+		f = (t_file *)list->content;
+		if ((n == 1 || f->id.gp == NULL) && ml->gp < ft_nbrlen(f->id.ngp))
+			ml->gp = ft_nbrlen(f->id.ngp);
+		else if (n == 0 && ml->gp < f->id.gp_len)
+			ml->gp = f->id.gp_len;
+		if ((n == 1 || f->id.user == NULL) && ml->user < ft_nbrlen(f->id.nuser))
+			ml->user = ft_nbrlen(f->id.nuser);
+		else if (n == 0 && ml->user < f->id.user_len)
+			ml->user = f->id.user_len;
+		if (ml->ino < ft_nbrlen(f->ino))
+			ml->ino = ft_nbrlen(f->ino);
+		if (ml->size < ft_nbrlen(f->size))
+			ml->size = ft_nbrlen(f->size);
+		if (ml->nb_link < ft_nbrlen(f->nb_link))
+			ml->nb_link = ft_nbrlen(f->nb_link);
+		if (ml->major < ft_nbrlen(f->major))
+			ml->major = ft_nbrlen(f->major);
+		if (ml->minor < ft_nbrlen(f->minor))
+			ml->minor = ft_nbrlen(f->minor);
 		list = list->next;
 	}
 }
@@ -94,6 +93,7 @@ void			print_ls(t_list *list, t_arg *arg_list)
 	t_file		*file;
 	t_maxlen	maxlen;
 
+	ft_bzero(&maxlen, sizeof(t_maxlen));
 	get_maxlen(arg_list->arg[10], list, &maxlen);
 	if (list != NULL && arg_list->arg[9] == 1)
 		print_total(list);
