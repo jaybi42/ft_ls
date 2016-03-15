@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/19 19:10:05 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/15 22:14:59 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/15 22:21:02 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int			get_stat(char *path, t_file *file)
 	file->path = ft_strdup(path);
 	if (file->path == NULL)
 		return (ERRORNO);
-	printf("path: [%s]\n", file->path);
 	file->name = name_from_path(path);
 	ret_stat = lstat(file->path, &stat);
 	if (ret_stat == -1)
