@@ -24,6 +24,21 @@ static void link_to_front(t_list **list, t_list *link)
 	*list = link;
 }
 
+static bool	link_toswap(t_time link_t, t_time tamp_t, bool crescent)
+{
+	int		ret;
+	
+	if (link_t.mtime == tamp_t.mtime)
+		ret = (link_t.mnano > tamp_t.mnano);
+	else
+		ret = (link_t.mtime > tamp_t.mtime)	
+	if (ret == 0 && crescent)
+		return (1);
+	else if (!crescent && ret == 1)
+		return (1);
+	return (0);
+}
+
 static void sort_time(t_list **list, bool crescent)
 {
 	t_list	*tamp;
@@ -37,11 +52,8 @@ static void sort_time(t_list **list, bool crescent)
 		link = begin;
 		while (tamp != NULL)
 		{
-			if (crescent && ((t_file *)tamp->content)->time.mtime >
-							((t_file *)link->content)->time.mtime)
-				link = tamp;
-			else if (!crescent && ((t_file *)tamp->content)->time.mtime <
-									((t_file *)link->content)->time.mtime)
+			if (link_toswap(((t_file *)link->content)->time,
+							((t_file *)tamp->content)->time, crescent) == 1)
 				link = tamp;
 			tamp = tamp->next;
 		}
