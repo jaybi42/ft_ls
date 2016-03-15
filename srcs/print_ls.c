@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/15 21:41:05 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/15 22:15:53 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,7 @@ void			print_ls(t_list *list, t_arg *arg_list)
 		print_name(file->path, file->name, S_ISLNK(file->mode));
 		list = list->next;
 	}
+	ft_putstr("--");
+	ft_putstr(((t_file *)list->content)->path);
 	ft_putchar('\n');
 }

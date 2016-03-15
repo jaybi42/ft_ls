@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/15 21:22:04 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/15 21:49:09 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static int	print_argv(t_list *list, t_arg *arg_list)
 		print_error(file->name, file->error);
 		list = list->next;
 	}
-	print_ls(list, arg_list);
 	ret = base_list(list, arg_list);
 	return (ret);
 }

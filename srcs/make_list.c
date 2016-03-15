@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/15 21:25:05 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/15 22:14:01 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 
 static int			can_add(char *str, t_arg *arg_list)
 {
+	if (str == NULL)
+		return (0);
 	if (arg_list->arg[4] == 1)
 		return (1);
 	else if (str[0] == '.' && arg_list->arg[0] == 0)
@@ -32,6 +34,11 @@ static char			*make_path(char *path, char *name)
 	char	*new_path;
 	char	*tamp;
 
+	if (path == NULL || name == NULL)
+	{
+		ERRORNO;
+		return (NULL);
+	}
 	if (path[ft_strlen(path) - 1] != '/')
 	{
 		tamp = ft_strjoin(path, "/");
@@ -44,6 +51,7 @@ static char			*make_path(char *path, char *name)
 		new_path = ft_strjoin(path, name);
 	if (new_path == NULL)
 		return (NULL);
+
 	return (new_path);
 }
 
