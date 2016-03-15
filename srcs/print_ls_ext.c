@@ -16,30 +16,25 @@ static void		print_size(uint64_t size, bool h)
 {
 	char const	base[] = "bKMG";
 	int			i;
-	uint64_t	comma;
+	int			len;
 
-	comma = size;
-	i = 0;
+	i = ft_nbrlen(size) / 3;
 	if (h == 1)
 	{
-		while (size > 1000)
-		{
-			size /= 1000;
-			if (i != 0)
-				comma /= 1000;
-			i++;
-		}
-		ft_putnbr(size);
+		len =  (3 - ft_nbrlen(size) % 3) % 3) + 1;
+		while (len--)
+			ft_putchar(' ');
+		ft_putnbr(size / ft_power(1000, i));
 		if (i != 0)
 		{
 			ft_putchar('.');
-			ft_putnbr((comma % 1000) / 100);
+			ft_putnbr((size % ft_power(1000, i)) / 100);
 		}
 		ft_putchar(base[i]);
 	}
 	else
 		ft_putnbr(size);
-	ft_putstr(" ");
+	ft_putchar(' ');
 }
 
 static void		print_id(t_file *file, bool g, bool n, t_maxlen *maxlen)
@@ -91,16 +86,19 @@ static int		print_mode(uint16_t mode)
 	return (0);
 }
 
-static void		print_majmin(int major, int minor)
+static void		print_majmin(int major, int minor, t_maxlen *maxlen)
 {
-//to work on spaces
+	int		i;
+
+	i = maxlen->major - ft_nbrlen(major) + 1;
+	while (i-- > 0)
+		ft_putchar(' ');
 	ft_putnbr(major);
-	while (i-- > 0)
-		ft_putchar(' ');
 	ft_putstr(", ");
-	ft_putnbr(minor);
+	i = maxlen->minor - ft_nbrlen(minor) + 1;
 	while (i-- > 0)
 		ft_putchar(' ');
+	ft_putnbr(minor);
 }
 
 void		print_ls_ext(t_file *file, t_arg *arg_list, t_maxlen *maxlen)

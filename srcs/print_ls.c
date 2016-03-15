@@ -82,10 +82,10 @@ static void		print_ino(int ino, int ino_maxlen)
 {
 	int i;
 
-	i = ino_maxlen - ft_nbrlen(ino);
-	ft_putnbr(ino);
+	i = ino_maxlen - ft_nbrlen(ino) + 1;
 	while (i-- > 0)
 		ft_putchar(' ');
+	ft_putnbr(ino);
 	ft_putchar(' ');
 }
 
