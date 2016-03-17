@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/15 21:49:09 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/17 18:18:42 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,16 @@
 
 void		free_list(void *content, size_t size)
 {
+	t_file	*file;
+	char	*path;
+
 	(void)size;
-	if (content != NULL)
+	file = (t_file *)content;
+	if (file != NULL)
 	{
-		if (((t_file *)content)->path != NULL)
-			ft_strdel(&((t_file *)content)->path);
+		path = (char *)file->path;
+		if (path != NULL)
+			ft_strdel(&path);
 		free(content);
 		content = NULL;
 	}
@@ -41,8 +46,7 @@ static int	one_list(t_list *list, t_arg *arg_list)
         {
             ret = make_list(((t_file *)link->content)->path, arg_list, &new_list);
             if (ret == 1)
-                print_error(((t_file *)link->content)->name,
-                            ((t_file *)link->content)->error);
+				return (1);
             sort_list(&new_list, arg_list);
 			print_ls(new_list, arg_list);
             if (arg_list->arg[1] == 1)
@@ -58,22 +62,24 @@ static int	one_list(t_list *list, t_arg *arg_list)
 static int	print_argv(t_list *list, t_arg *arg_list)
 {
 	t_file	*file;
-	int		ret;
 
-	file = (t_file *)list->content;
 	if (list->next == NULL && S_ISDIR(((t_file *)list->content)->mode) == 1)
+		return (one_list(list, arg_list));
+	while (list != NULL && S_ISDIR(((t_file *)list->content)->mode) == 0)
 	{
-		ret = one_list(list, arg_list);
-			return (ret);
-	}
-	while (list != NULL && file->error != 0)
-	{
-		file = (t_file *)list->content;
-		print_error(file->name, file->error);
+		file = ((t_file *)list->content);
+		if (file->error != 0)
+			print_error(file->name, file->error);
+		else if (S_ISDIR(file->mode) == 0)
+			ft_putendl(file->name);
 		list = list->next;
 	}
-	ret = base_list(list, arg_list);
-	return (ret);
+	if (list != NULL)
+	{
+		ft_putchar('\n');
+		return (base_list(list, arg_list));
+	}
+	return (0);
 }
 
 int			argv_to_list(char **argv, int argi, t_arg *arg_list)

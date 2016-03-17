@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/24 14:59:31 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/10 18:46:41 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/17 18:55:45 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	link_to_fakefile(t_list **list, t_list *link)
 {
 	t_list	*prev;
-	t_list	*next;
+	t_list	*tamp;
 
 	if (link == *list)
 		return ;
@@ -26,16 +26,16 @@ static void	link_to_fakefile(t_list **list, t_list *link)
 		return ;
 	prev->next = link->next;
 	prev = *list;
-	next = (*list)->next;
-	while (next != NULL)
+	tamp = (*list)->next;
+	while (tamp != NULL)
 	{
-		if (((t_file *)next->content)->error == 0)
+		if (((t_file *)tamp->content)->error == 0)
 			break ;
-		next = next->next;
+		tamp = tamp->next;
 		prev = prev->next;
 	}
-	link->next = next;
-	next->next = link;
+	link->next = tamp;
+	prev->next = link;
 }
 
 static void	link_to_back(t_list **list, t_list *link)

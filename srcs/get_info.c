@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/19 19:10:05 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/15 22:21:02 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/17 18:58:17 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int			get_stat(char *path, t_file *file)
 	if (ret_stat == -1)
 	{
 		file->error = errno;
+		print_error(file->name, file->error);
 		return (0);
 	}
 	stat_grpw(file, stat.st_gid, stat.st_uid);

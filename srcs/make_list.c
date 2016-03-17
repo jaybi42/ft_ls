@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/15 22:14:01 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/17 18:57:17 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,25 +58,30 @@ static char			*make_path(char *path, char *name)
 static int			add_list(char *path, t_list **new_list)
 {
 	t_list			*tamp;
-	t_file			file;
+	t_file			*file;
 
+	file = (t_file *)malloc(sizeof(t_file));
+	if (file == NULL)
+		return (1);
 	if (*new_list == NULL)
 	{
-		if (get_stat(path, &file) == 1)
+		if (get_stat(path, file) == 1)
 			return (1);
-		*new_list = ft_lstnew((void *)&file, sizeof(t_file));
+		*new_list = ft_lstnew((void *)file, sizeof(t_file));
 		if (*new_list == NULL)
-			return (ERROR);
+			return (1);
 	}
 	else
 	{
-		if (get_stat(path, &file) == 1)
+		if (get_stat(path, file) == 1)
 			return (1);
-		tamp = ft_lstnew((void *)&file, sizeof(t_file));
+		tamp = ft_lstnew((void *)file, sizeof(t_file));
 		if (tamp == NULL)
-			return (ERROR);
+			return (1);
 		ft_lstadd(new_list, tamp);
 	}
+	free(file);
+	file = NULL;
 	return (0);
 }
 
@@ -88,7 +93,7 @@ int				make_list(char *path, t_arg *arg_list, t_list **new_list)
 
 	dir = opendir(path);
 	if (dir == NULL)
-		return (ERRORNO);
+		return (1);
 	while (dir != NULL && (st_dir = readdir(dir)) != NULL)
 	{
 		if (can_add(st_dir->d_name, arg_list) == 0)
@@ -100,7 +105,7 @@ int				make_list(char *path, t_arg *arg_list, t_list **new_list)
 			return (1);
 	}
 	if (closedir(dir) == -1)
-		return (ERRORNO);
+		return (1);
 	return (0);
 }
 
@@ -118,8 +123,7 @@ int				base_list(t_list *list, t_arg *arg_list)
 		{
 			ret = make_list(((t_file *)link->content)->path, arg_list, &new_list);
 			if (ret == 1)
-				print_error(((t_file *)link->content)->name,
-							((t_file *)link->content)->error);
+				return (1);
 			sort_list(&new_list, arg_list);
 			ft_putstr(((t_file *)link->content)->path);
 			ft_putendl(":");

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/14 15:33:03 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/15 20:41:33 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/17 18:19:22 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,4 @@ void	print_error(char *name, int error)
 	ft_putstr(name);
 	ft_putstr(": ");
 	perror("");
-//	ft_putendl(strerror(error));
 }
