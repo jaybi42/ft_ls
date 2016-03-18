@@ -63,7 +63,10 @@ int				add_list(char *path, t_list **new_list)
 	if (*new_list == NULL)
 	{
 		if (get_stat(path, &file) == 1)
-			return (1);
+		{
+				print_error(file->path, file->error);
+				return (0)
+		}
 		*new_list = ft_lstnew((void *)&file, sizeof(t_file));
 		if (*new_list == NULL)
 			return (1);
