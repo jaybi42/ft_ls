@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/17 17:38:41 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/18 16:50:03 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct	s_file
 	int			ino;
 	int			major;
 	int			minor;
-	bool		argv;
 	t_id		id;
 	t_time		time;
 }				t_file;
@@ -98,8 +97,8 @@ void			print_error(char *name, int error);
 **Desc: Parse files
 */
 
-int				make_list(char *path, t_arg *arg_list, t_list **new_list);
-int				base_list(t_list *list, t_arg *arg_list);
+int				add_list(char *path, t_list **new_list);
+int				base_list(t_list *list, t_arg *arg_list, bool first);
 int				sort_argv(t_list **list);
 int				argv_to_list(char **argv, int argi, t_arg *arg_list);
 int				sort_list(t_list **list, t_arg *arg_list);

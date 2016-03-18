@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 18:00:58 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/04 16:11:07 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/18 17:17:22 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ static int	get_flag(int argc, char **argv, t_arg *arg_list)
 static int	make_ls(int argc, char **argv, t_arg *arg_list)
 {
 	char	*root[] = {".", NULL};
-	int		ret;
 
 	argc -= 1;
 	while (argc > 0 && argv[1][0] == '-')
@@ -79,10 +78,9 @@ static int	make_ls(int argc, char **argv, t_arg *arg_list)
 		argc--;
 	}
 	if (argc == 0)
-		ret = argv_to_list(root, 0, arg_list);
+		return (argv_to_list(root, 0, arg_list));
 	else
-		ret = argv_to_list(argv, argc, arg_list);
-	return (ret);
+		return (argv_to_list(argv, argc, arg_list));
 }
 
 int			main(int argc, char **argv)

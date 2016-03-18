@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/17 17:37:28 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/18 18:29:52 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void			print_ls(t_list *list, t_arg *arg_list)
 			list = list->next;
 			continue ;
 		}
-		else if (arg_list->arg[8] == 1)
+		if (arg_list->arg[8] == 1)
 			print_ino(file->ino, maxlen.ino);
 		if (list != NULL && arg_list->arg[9] == 1)
 			print_ls_ext(file, arg_list, &maxlen);
