@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/18 18:39:14 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/18 18:45:21 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int				base_list(t_list *list, t_arg *arg_list, bool first)
 				ft_putstr(((t_file *)link->content)->path);
 			if (first == 0)
 				ft_putendl(":");
-			print_ls(new_list, arg_list);
+//			print_ls(new_list, arg_list);
 			if (arg_list->arg[1] == 1)
 				base_list(new_list, arg_list, 0);
 		}
