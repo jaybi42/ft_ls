@@ -77,7 +77,7 @@ int			get_stat(char *path, t_file *file)
 	if (ret_stat == -1)
 	{
 		file->error = errno;
-		return (0);
+		return (1);
 	}
 	stat_grpw(file, stat.st_gid, stat.st_uid);
 	stat_time(file, stat.st_mtimespec, stat.st_ctimespec, stat.st_atimespec);
