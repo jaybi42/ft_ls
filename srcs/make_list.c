@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/18 18:28:25 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/18 18:39:14 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,6 @@ static char			*make_path(char *path, char *name)
 		return (NULL);
 
 	return (new_path);
-}
-
-static void show_list(t_list *list)
-{
-    while (list != NULL)
-    {
-        printf("[%s]\n",((t_file *)list->content)->name);
-        list = list->next;
-    }
 }
 
 int				add_list(char *path, t_list **new_list)
