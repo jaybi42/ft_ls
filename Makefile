@@ -18,7 +18,7 @@ CC = gcc
 
 ##=-  FLAGS -=##
 
-CFLAGS = -Wall -Wextra -g3 #-Werror
+CFLAGS = -Wall -Wextra -g3 -Werror
 
 
 ##=-  PATH -=##

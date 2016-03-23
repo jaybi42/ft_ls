@@ -36,7 +36,7 @@ static char			*make_path(char *path, char *name)
 
 	if (path == NULL || name == NULL)
 	{
-		ERRORNO;
+		// ERRORNO;
 		return (NULL);
 	}
 	if (path[ft_strlen(path) - 1] != '/')

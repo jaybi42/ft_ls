@@ -11,9 +11,19 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdlib.h>
 
 void	ft_lstadd(t_list **alst, t_list *new)
 {
-	new->next = *alst;
-	*alst = new;
+	if (alst != NULL)
+	{
+		new->next = *alst;
+		*alst = new;
+	}
+	else
+	{
+		ft_putendl("HAHAHAH TU ME SEND DE LA MERDE");
+		exit(-1);
+	}
+
 }

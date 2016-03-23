@@ -69,7 +69,7 @@ static void		print_name(char *path, char *name, bool is_lnk)
 	{
 		len = readlink(path, buff, sizeof(buff) - 1);
 		if (len == -1)
-			ERRORNO;
+			// ERRORNO;
 		ft_putstr(" -> ");
 		buff[len] = '\0';
 		ft_putstr(buff);

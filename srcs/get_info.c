@@ -71,7 +71,7 @@ int			get_stat(char *path, t_file *file)
 	ft_bzero(file, sizeof(t_file));
 	file->path = ft_strdup(path);
 	if (file->path == NULL)
-		return (ERRORNO);
+		return (1);
 	file->name = name_from_path(path);
 	ret_stat = lstat(file->path, &stat);
 	if (ret_stat == -1)
