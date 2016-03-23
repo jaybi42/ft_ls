@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/18 19:21:29 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/23 16:34:34 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ int				add_list(char *path, t_list **new_list)
 	{
 		if (get_stat(path, &file) == 1)
 		{
-				print_error(file->path, file->error);
-				return (0)
+				print_error(file.path, file.error);
+				return (0);
 		}
 		*new_list = ft_lstnew((void *)&file, sizeof(t_file));
 		if (*new_list == NULL)
@@ -131,7 +131,7 @@ int				base_list(t_list *list, t_arg *arg_list, bool first)
 				ft_putstr(((t_file *)link->content)->path);
 			if (first == 0)
 				ft_putendl(":");
-//			print_ls(new_list, arg_list);
+			print_ls(new_list, arg_list);
 			if (arg_list->arg[1] == 1)
 				base_list(new_list, arg_list, 0);
 		}
