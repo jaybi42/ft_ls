@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/24 14:59:31 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/18 17:04:47 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/23 19:01:43 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,10 @@ int			sort_argv(t_list **list)
 	link = *list;
 	while (i-- > 0)
 	{
+		// if fake file print error
 		if (((t_file *)link->content)->error != 0)
 			link_to_fakefile(list, link);
+		// if normal file print
 		else if (S_ISDIR(((t_file *)link->content)->mode) == 1)
 			link_to_back(list, link);
 		link = next_link;

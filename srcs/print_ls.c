@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/18 18:42:47 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/23 18:53:28 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void		print_name(char *path, char *name, bool is_lnk)
 	{
 		len = readlink(path, buff, sizeof(buff) - 1);
 		if (len == -1)
-			// ERRORNO;
+			return ;
 		ft_putstr(" -> ");
 		buff[len] = '\0';
 		ft_putstr(buff);
@@ -95,7 +95,8 @@ void			print_ls(t_list *list, t_arg *arg_list)
 
 	ft_bzero(&maxlen, sizeof(t_maxlen));
 	get_maxlen(arg_list->arg[10], list, &maxlen);
-	if (list != NULL && arg_list->arg[9] == 1)
+	if (list != NULL && arg_list->arg[9] == 1 &&
+		S_ISDIR(((t_file *)list->content)->mode) == 1)
 		print_total(list);
 	while (list != NULL)
 	{
@@ -107,5 +108,5 @@ void			print_ls(t_list *list, t_arg *arg_list)
 		print_name(file->path, file->name, S_ISLNK(file->mode));
 		list = list->next;
 	}
-	ft_putchar('\n');
+//	ft_putchar('\n');
 }

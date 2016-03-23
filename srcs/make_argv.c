@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/23 16:32:45 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/23 18:59:21 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,28 +34,22 @@ void		free_list(void *content, size_t size)
 
 static int	print_argv(t_list *list, t_arg *arg_list)
 {
-	bool	normal;
+	t_list *new_list;
+	t_list *tamp;
 
-	normal = 0;
 	if (list->next == NULL && S_ISDIR(((t_file *)list->content)->mode) == 1)
 		return (base_list(list, arg_list, 1));
-	while (list != NULL && S_ISDIR(((t_file *)list->content)->mode) == 0)
+	while (list != NULL && S_ISDIR(((t_file *)list->content)->error) != 0)
 	{
-		if (((t_file *)list->content)->error != 0)
-			print_error(((t_file *)list->content)->name,
-						((t_file *)list->content)->error);
-		else if (S_ISDIR(((t_file *)list->content)->mode) == 0)
-		{
-			ft_putendl(((t_file *)list->content)->name);
-			normal = 1;
-		}
+		print_error(((t_file *)list->content)->name,
+					((t_file *)list->content)->error);
 		list = list->next;
 	}
 	if (list != NULL)
 	{
-		if (normal ==  1)
-			ft_putchar('\n');
-		return (base_list(list, arg_list, 0));
+		// split list in sort argv
+		print_ls(new_list, arg_list);
+		return (base_list(new_list, arg_list, 0));
 	}
 	return (0);
 }

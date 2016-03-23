@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/23 16:34:34 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/23 18:09:11 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ static char			*make_path(char *path, char *name)
 	char	*tamp;
 
 	if (path == NULL || name == NULL)
-	{
-		// ERRORNO;
 		return (NULL);
-	}
 	if (path[ft_strlen(path) - 1] != '/')
 	{
 		tamp = ft_strjoin(path, "/");
