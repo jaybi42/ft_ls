@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/24 18:18:49 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/24 20:02:04 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <errno.h>
 #include <stdlib.h>
 
-void		free_list(void *content, size_t size)
+void			free_list(void *content, size_t size)
 {
 	t_file	*file;
 	char	*path;
@@ -32,7 +32,7 @@ void		free_list(void *content, size_t size)
 	}
 }
 
-static void	print_fakelist(t_list **list)
+static void		print_fakelist(t_list **list)
 {
 	t_list	*cur;
 	t_list	*prev;
@@ -40,6 +40,8 @@ static void	print_fakelist(t_list **list)
 	prev = *list;
 	while (prev != NULL && ((t_file *)prev->content)->error != 0)
 	{
+		print_error(((t_file *)cur->content)->name,
+					((t_file *)cur->content)->error);
 		*list = *list->next;
 		ft_lstdelone(prev, free_list);
 		prev = *list;
@@ -47,7 +49,7 @@ static void	print_fakelist(t_list **list)
 	while (prev != NULL && prev->next != NULL)
 	{
 		cur = prev->next;
-		if (((t_file *)cur->content)->error) != 0)
+		if (((t_file *)cur->content)->error != 0)
 		{
 			print_error(((t_file *)cur->content)->name,
 						((t_file *)cur->content)->error);
@@ -59,33 +61,59 @@ static void	print_fakelist(t_list **list)
 	}
 }
 
-static bool	print_reglist(t_list **list, t_arg *arg_list)
+static t_list	*print_reglist(t_list **list, t_arg *arg_list)
 {
-	return (1);
+    t_list  *reg_list;
+	t_list	*prev;
+	t_list	*cur;
+
+	reg_list = NULL;
+	prev = *list;
+    while (prev != NULL && S_ISREG(((t_file *)prev->content)->mode) == 1)
+	{
+		ft_lstadd_last(&reg_list, prev);
+		*list = *list->next;
+		prev = *list;
+	}
+	while (prev != NULL && prev->next != NULL)
+	{
+		cur = prev->next;
+		if (S_ISREG(((t_file *)cur->content)->mode) == 1)
+		{
+			prev = cur->next;
+			ft_lstadd_last(&reg_list, cur);
+		}
+		else
+			prev = prev->next;
+	}
+	return (reg_list);
 }
 
-
-static int	sort_argv(t_list **list, t_arg *arg_list)
+static int		sort_argv(t_list **list, t_arg *arg_list)
 {
-	t_list	*begin_list;
-    bool    reg;
+	t_list	*reg_list;
 
-	begin_list != NULL;
-    while (*list != NULL)
-        print_fakelist(list);
-    if (*list != NULL)
-        reg = print_reglist(list, arg_list);
-    if (reg == 1 && *list != NULL)
-        ft_putchar('\n');
 	if ((*list)->next == NULL && S_ISDIR(((t_file *)(*list)->content)->mode) == 1)
 		return (base_list(*list, arg_list, 1));
-	else if (list != NULL)
+	if (*list != NULL)
+		print_fakelist(list);
+	if (*list != NULL)
+	{
+		reg_list = print_reglist(list, arg_list);
+		if (reg_list != NULL && *list != NULL)
+		{
+			print_ls(reg_list);
+			ft_lstdel(&reg_list, free_list);
+			ft_putchar('\n');
+		}
+	}
+	if (list != NULL)
 		return (base_list(*list, arg_list, 0));
 	else
 		return (0);
 }
 
-int			argv_to_list(char **argv, int argi, t_arg *arg_list)
+int				argv_to_list(char **argv, int argi, t_arg *arg_list)
 {
 	t_list	*begin_list;
 
