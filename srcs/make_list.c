@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/24 17:37:30 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/24 22:56:18 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,7 @@ int				add_list(char *path, t_list **new_list)
 	if (*new_list == NULL)
 	{
 		if (get_stat(path, &file) == 1)
-		{
-				print_error(file.path, file.error);
-				return (0);
-		}
+			return (0);
 		*new_list = ft_lstnew((void *)&file, sizeof(t_file));
 		if (*new_list == NULL)
 			return (1);
@@ -72,7 +69,7 @@ int				add_list(char *path, t_list **new_list)
 	else
 	{
 		if (get_stat(path, &file) == 1)
-			return (1);
+			return (0);
 		tamp = ft_lstnew((void *)&file, sizeof(t_file));
 		if (tamp == NULL)
 			return (1);
@@ -110,31 +107,31 @@ static int				make_list(char *path, t_arg *arg_list, t_list **new_list)
 	return (0);
 }
 
-int				base_list(t_list *list, t_arg *arg_list, bool first)
+int				base_list(t_list *list, t_arg *a_l, bool alone, bool first)
 {
 	t_list	*link;
-	t_list	*new_list;
-	int		ret;
+	t_list	*new_l;
 
 	link = list;
-	new_list = NULL;
+	new_l = NULL;
 	while (link != NULL)
 	{
 		if (S_ISDIR(((t_file *)link->content)->mode) == 1)
 		{
-			ret = make_list(((t_file *)link->content)->path, arg_list, &new_list);
-			if (ret == 1)
+			if (make_list(((t_file *)link->content)->path, a_l, &new_l) == 1)
 				return (1);
-			if (first == 0)
+			if (alone == 0)
+			{
+				first == 1 ? first = 0 : ft_putchar('\n');
 				ft_putstr(((t_file *)link->content)->path);
-			if (first == 0)
 				ft_putendl(":");
-			print_ls(new_list, arg_list);
-			if (arg_list->arg[1] == 1)
-				base_list(new_list, arg_list, 0);
+			}
+			print_ls(new_l, a_l);
+			if (a_l->arg[1] == 1)
+				base_list(new_l, a_l, 0, 0);
 		}
-		if (new_list != NULL)
-			ft_lstdel(&new_list, free_list);
+		if (new_l != NULL)
+			ft_lstdel(&new_l, free_list);
 		link = link->next;
 	}
 	return (0);
