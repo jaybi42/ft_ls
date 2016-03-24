@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/23 18:09:11 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/24 17:37:30 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static int			can_add(char *str, t_arg *arg_list)
 		return (1);
 	else if (str[0] == '.' && arg_list->arg[0] == 0)
 		return (0);
-	else if (str[0] == '.' && str[1] == '.' && arg_list->arg[0] == 0)
+	else if (str[0] == '.' && str[1] == '.' &&
+			 (arg_list->arg[0] == 0 || arg_list->arg[5] == 0))
 		return (0);
 	return (1);
 }

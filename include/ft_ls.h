@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/18 16:50:03 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/24 17:39:26 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void			print_error(char *name, int error);
 
 int				add_list(char *path, t_list **new_list);
 int				base_list(t_list *list, t_arg *arg_list, bool first);
-int				sort_argv(t_list **list);
 int				argv_to_list(char **argv, int argi, t_arg *arg_list);
 int				sort_list(t_list **list, t_arg *arg_list);
 void			free_list(void *content, size_t size);
