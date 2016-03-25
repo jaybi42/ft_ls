@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/02 18:02:25 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/23 18:48:17 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/25 17:21:52 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,9 @@ void		print_ls_ext(t_file *file, t_arg *arg_list, t_maxlen *maxlen)
 	else
 		print_size(file->size, arg_list->arg[7], maxlen);
 	if (arg_list->arg[13] == 1)
-		print_time(file->time.ctime);
+		print_time(file->time.mtime);
 	else if (arg_list->arg[3] == 1)
 		print_time(file->time.atime);
 	else
-		print_time(file->time.mtime);
+		print_time(file->time.ctime);
 }

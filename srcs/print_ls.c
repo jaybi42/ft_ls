@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/24 22:25:26 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/25 17:33:41 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static void		print_name(char *path, char *name, bool is_lnk)
 {
 	char		buff[1024];
 	ssize_t		len;
-
 	if (name != NULL)
 		ft_putstr(name);
 	if (is_lnk == 1)

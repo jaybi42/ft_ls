@@ -6,7 +6,7 @@
 /*   By: tsilberm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/24 19:22:33 by tsilberm          #+#    #+#             */
-/*   Updated: 2015/11/30 22:24:15 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/25 17:05:39 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,4 @@ void	ft_lstadd(t_list **alst, t_list *new)
 		ft_putendl("HAHAHAH TU ME SEND DE LA MERDE");
 		exit(-1);
 	}
-
 }

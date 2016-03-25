@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/24 22:54:21 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/25 17:22:37 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static void		print_fakelist(t_list **list)
 	t_list	*prev;
 
 	prev = *list;
-	print_list(*list);
 	while (prev != NULL && ((t_file *)prev->content)->error != 0)
 	{
 		print_error(((t_file *)prev->content)->name,
@@ -65,9 +64,9 @@ static void		print_fakelist(t_list **list)
 		cur = prev->next;
 		if (((t_file *)cur->content)->error != 0)
 		{
+			prev->next = cur->next;
 			print_error(((t_file *)cur->content)->name,
 						((t_file *)cur->content)->error);
-			prev = cur->next;
 			ft_lstdelone(&cur, free_list);
 		}
 		else
@@ -85,8 +84,8 @@ static t_list	*get_reglist(t_list **list)
 	prev = *list;
     while (prev != NULL && S_ISREG(((t_file *)prev->content)->mode) == 1)
 	{
-		ft_lstadd_last(&reg_list, prev);
 		*list = (*list)->next;
+		ft_lstadd_last(&reg_list, prev);
 		prev = *list;
 	}
 	while (prev != NULL && prev->next != NULL)
@@ -94,7 +93,7 @@ static t_list	*get_reglist(t_list **list)
 		cur = prev->next;
 		if (S_ISREG(((t_file *)cur->content)->mode) == 1)
 		{
-			prev = cur->next;
+			prev->next = cur->next;
 			ft_lstadd_last(&reg_list, cur);
 		}
 		else
@@ -136,13 +135,11 @@ int				argv_to_list(char **argv, int argi, t_arg *arg_list)
 	begin_list = NULL;
 	if (add_list(argv[argi--], &begin_list) == 1)
 		return (1);
-	print_list(begin_list);
 	while (argi > 0)
 	{
 		if (add_list(argv[argi--], &begin_list) == 1)
 			return (1);
 	}
-	print_list(begin_list);
 	if (begin_list->next != NULL)
 	{
 		if (arg_list->arg[5] == 0)

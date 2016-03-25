@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/24 22:25:39 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/25 17:28:44 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct	s_file
 {
 	char		*path;
 	char		*name;
+	char		*lnk_name;
 	int			error;
 	uint8_t		namelen;
 	uint16_t	mode;

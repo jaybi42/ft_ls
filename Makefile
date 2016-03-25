@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/03/24 17:39:11 by jguthert         ###   ########.fr        #
+#    Updated: 2016/03/25 16:42:02 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -18,7 +18,7 @@ CC = gcc
 
 ##=-  FLAGS -=##
 
-CFLAGS = -Wall -Wextra -g3 -Werror
+CFLAGS = -Wall -Wextra -g3 #-Werror
 
 
 ##=-  PATH -=##
