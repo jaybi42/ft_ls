@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/19 19:10:05 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/25 17:20:28 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/25 19:19:43 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,27 @@ static void		stat_time(t_file *file, struct timespec atime,
 	file->time.mnano = mtime.tv_nsec;
 }
 
+static char		*lnk_dir(uint16_t mode, char *path)
+{
+	char			*lnk;
+	char			buff[1024];
+	ssize_t			len;
+	struct stat		stat;
+
+	if (S_ISLNK(mode) == 0)
+		return (NULL);
+	len = readlink(path, buff, sizeof(buff) - 1);
+	if (len == -1)
+		return (NULL);
+	if (lstat(lnk, &stat) == 1)
+		return (NULL);
+	if (S_ISDIR(stat.st_mode) == 0)
+		return (NULL);
+	lnk = ft_strnew(len);
+	ft_strncpy(lnk, buff, len);
+	return (lnk);
+}
+
 int			get_stat(char *path, t_file *file)
 {
 	int				ret_stat;
@@ -88,5 +109,6 @@ int			get_stat(char *path, t_file *file)
 	file->size = stat.st_size;
 	file->ino = stat.st_ino;
 	file->blocks = stat.st_blocks;
+	file->lnk_path = lnk_dir(file->mode, file->path);
 	return (0);
 }

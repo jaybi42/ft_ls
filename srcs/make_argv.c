@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/25 17:22:37 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/03/25 19:19:02 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,18 @@ void			free_list(void *content, size_t size)
 {
 	t_file	*file;
 	char	*path;
+	char	*lnk;
 
 	(void)size;
 	file = (t_file *)content;
 	if (file != NULL)
 	{
 		path = (char *)file->path;
+		lnk = (char *)file->lnk_path;
 		if (path != NULL)
 			ft_strdel(&path);
+		if (lnk != NULL)
+			ft_strdel(&lnk);
 		free(content);
 		content = NULL;
 	}
@@ -108,7 +112,9 @@ static int		sort_argv(t_list **list, t_arg *arg_list)
 	bool	first;
 
 	first = 1;
-	if ((*list)->next == NULL && S_ISDIR(((t_file *)(*list)->content)->mode) == 1)
+	if ((*list)->next == NULL
+		&& (S_ISDIR(((t_file *)(*list)->content)->mode) == 1
+		|| ((t_file *)(*list)->content)->lnk_path != NULL))
 		return (base_list(*list, arg_list, 1, first));
 	if (*list != NULL)
 		print_fakelist(list);
