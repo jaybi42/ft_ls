@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/19 19:10:05 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/25 19:19:43 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/01 01:57:05 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static char		*lnk_dir(uint16_t mode, char *path)
 	len = readlink(path, buff, sizeof(buff) - 1);
 	if (len == -1)
 		return (NULL);
-	if (lstat(lnk, &stat) == 1)
+	if (lstat(buff, &stat) == 1)
 		return (NULL);
 	if (S_ISDIR(stat.st_mode) == 0)
 		return (NULL);
@@ -110,5 +110,6 @@ int			get_stat(char *path, t_file *file)
 	file->ino = stat.st_ino;
 	file->blocks = stat.st_blocks;
 	file->lnk_path = lnk_dir(file->mode, file->path);
+	x_attr(file);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/25 19:19:02 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/01 01:44:48 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,6 @@ void			free_list(void *content, size_t size)
 		free(content);
 		content = NULL;
 	}
-}
-
-static void		print_list(t_list *list)
-{
-	ft_putendl("--- Start list ---");
-	while (list != NULL)
-	{
-		ft_putchar('[');
-		ft_putstr(((t_file *)list->content)->path);
-		ft_putstr("]\n");
-		list = list->next;
-	}
-	ft_putendl("--- End list ---");
 }
 
 static void		print_fakelist(t_list **list)

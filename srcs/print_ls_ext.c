@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/02 18:02:25 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/25 17:21:52 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/01 02:06:29 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void		print_size(uint64_t size, bool h, t_maxlen *maxlen)
 {
-	char const	base[] = "BKMG";
+	char const	base[] = "BKMGTPE";
 	int			i;
 	int			len;
 
@@ -30,7 +30,7 @@ static void		print_size(uint64_t size, bool h, t_maxlen *maxlen)
 			ft_putchar('.');
 		if (i != 0)
 			ft_putnbr((size % ft_power(1000, i)) / 100);
-		ft_putchar(base[i]);
+		i <= 6 ? ft_putchar(base[i]) : ft_putchar(base[6]);
 	}
 	else
 	{
