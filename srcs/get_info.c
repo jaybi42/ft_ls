@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/19 19:10:05 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/01 01:57:05 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/07 18:18:00 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,16 @@ static char		*lnk_dir(uint16_t mode, char *path)
 	char			*lnk;
 	char			buff[1024];
 	ssize_t			len;
-	struct stat		stat;
+	struct stat		get_stat;
 
 	if (S_ISLNK(mode) == 0)
 		return (NULL);
 	len = readlink(path, buff, sizeof(buff) - 1);
 	if (len == -1)
 		return (NULL);
-	if (lstat(buff, &stat) == 1)
+	if (stat(path, &get_stat) == -1)
 		return (NULL);
-	if (S_ISDIR(stat.st_mode) == 0)
+	if (S_ISDIR(get_stat.st_mode) == 0)
 		return (NULL);
 	lnk = ft_strnew(len);
 	ft_strncpy(lnk, buff, len);

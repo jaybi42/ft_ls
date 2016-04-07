@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/01 01:44:48 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/07 18:18:42 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ static int		sort_argv(t_list **list, t_arg *arg_list)
 	bool	first;
 
 	first = 1;
+	printf("path: [%s], name: [%s]\n", ((t_file *)(*list)->content)->path, ((t_file *)(*list)->content)->name);
+	printf("lnk_path: [%s]\n", ((t_file *)(*list)->content)->lnk_path);
 	if ((*list)->next == NULL
 		&& (S_ISDIR(((t_file *)(*list)->content)->mode) == 1
 		|| ((t_file *)(*list)->content)->lnk_path != NULL))

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/25 19:15:11 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/07 18:30:59 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,11 @@ static int				make_list(char *path, t_arg *arg_list, t_list **new_list)
 	return (0);
 }
 
-static bool		get_realpath(char **path, t_file *file)
+static bool		get_realpath(char **path, t_file *file, t_arg *arg_list)
 {
-	if (file->lnk_path != NULL)
+	if (file->lnk_path != NULL && arg_list->arg[9] == 0)
 	{
+		printf("OK HERE\n");
 		*path = file->lnk_path;
 		return (1);
 	}
@@ -131,7 +132,7 @@ int				base_list(t_list *list, t_arg *a_l, bool alone, bool first)
 	new_l = NULL;
 	while (link != NULL)
 	{
-		if (get_realpath(&path, ((t_file *)link->content)) == 1)
+		if (get_realpath(&path, ((t_file *)link->content), a_l) == 1)
 		{
 			if (make_list(path, a_l, &new_l) == 1)
 				return (1);
