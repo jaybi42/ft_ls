@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 18:00:58 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/24 22:50:28 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/08 17:18:01 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	arg_error(char c, const char *base)
 	ft_putstr_fd("ls: illegal option -- ", 2);
 	ft_putchar_fd(c, 2);
 	ft_putchar_fd('\n', 2);
-	ft_putstr_fd("usage: ls [-", 2);
+	ft_putstr_fd("usage: ls [", 2);
 	ft_putstr_fd(base, 2);
 	ft_putendl_fd("] [file ...]", 2);
 	return (1);
@@ -72,7 +72,7 @@ static int	make_ls(int argc, char **argv, t_arg *arg_list)
 	char	*root[] = {".", NULL};
 
 	argc -= 1;
-	while (argc > 0 && argv[1][0] == '-')
+	while (argc > 0 && argv[1][0] == '-' && argv[1][1] != '\0')
 	{
 		argv++;
 		argc--;

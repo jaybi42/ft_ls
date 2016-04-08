@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/03/25 18:39:08 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/08 16:15:15 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,14 @@ static void		print_total(t_list *list)
 	ft_putchar('\n');
 }
 
-static void		print_name(char *path, char *name, bool is_lnk)
+static void		print_name(char *path, char *name, bool is_lnk, bool l)
 {
 	char		buff[1024];
 	ssize_t		len;
 
 	if (name != NULL)
 		ft_putstr(name);
-	if (is_lnk == 1)
+	if (is_lnk == 1 && l == 1)
 	{
 		len = readlink(path, buff, sizeof(buff) - 1);
 		if (len == -1)
@@ -105,7 +105,7 @@ void			print_ls(t_list *list, t_arg *arg_list)
 			print_ino(file->ino, maxlen.ino);
 		if (list != NULL && arg_list->arg[9] == 1)
 			print_ls_ext(file, arg_list, &maxlen);
-		print_name(file->path, file->name, S_ISLNK(file->mode));
+		print_name(file->path, file->name, S_ISLNK(file->mode), arg_list->arg[9]);
 		list = list->next;
 	}
 }

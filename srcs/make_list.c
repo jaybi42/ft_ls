@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/07 18:30:59 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/08 17:16:48 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static char			*make_path(char *path, char *name)
 		new_path = ft_strjoin(path, name);
 	if (new_path == NULL)
 		return (NULL);
-
 	return (new_path);
 }
 
@@ -105,19 +104,30 @@ static int				make_list(char *path, t_arg *arg_list, t_list **new_list)
 	return (0);
 }
 
-static bool		get_realpath(char **path, t_file *file, t_arg *arg_list)
+static bool		get_realpath(char **path, t_file *f, t_arg *arg_list)
 {
-	if (file->lnk_path != NULL && arg_list->arg[9] == 0)
-	{
-		printf("OK HERE\n");
-		*path = file->lnk_path;
+	char	*new_path;
+	int		len_path;
+	int		len_lnk;
+	int		i;
+
+	if (S_ISDIR(f->mode) == 1)
 		return (1);
-	}
-	if (S_ISDIR(file->mode) == 1)
+/*	else if (file->lnk_path != NULL && arg_list->arg[9] == 0)
 	{
-		*path = file->path;
+		i = -1;
+		len_path = ft_strlen(f->path) - ft_strlen(f->name);
+		len_lnk = ft_strlen(f->lnk_path);
+		new_path = ft_strnew(len_path + len_lnk);
+		while (++i < len_path)
+			new_path[i] = f->path[i];
+		while (f->(*lnk_path) != '\0')
+			new_path[i++] = *lnk_path;
+		lnk_path -= len_lnk;
+		ft_strdel(&f->path);
+		path = new_path;
 		return (1);
-	}
+		}*/
 	return (0);
 }
 
