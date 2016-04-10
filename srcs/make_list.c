@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/08 17:16:48 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/10 16:28:26 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,7 @@ int				add_list(char *path, t_list **new_list)
 		if (*new_list == NULL)
 			return (1);
 	}
-	else
-	{
+	else	{
 		get_stat(path, &file);
 		tamp = ft_lstnew((void *)&file, sizeof(t_file));
 		if (tamp == NULL)
@@ -104,30 +103,32 @@ static int				make_list(char *path, t_arg *arg_list, t_list **new_list)
 	return (0);
 }
 
-static bool		get_realpath(char **path, t_file *f, t_arg *arg_list)
+static bool		get_realpath(t_file *f)
 {
 	char	*new_path;
 	int		len_path;
 	int		len_lnk;
 	int		i;
+	int		j;
 
 	if (S_ISDIR(f->mode) == 1)
 		return (1);
-/*	else if (file->lnk_path != NULL && arg_list->arg[9] == 0)
+	else if (f->lnk_path != NULL)
 	{
 		i = -1;
+		j = 0;
 		len_path = ft_strlen(f->path) - ft_strlen(f->name);
 		len_lnk = ft_strlen(f->lnk_path);
 		new_path = ft_strnew(len_path + len_lnk);
 		while (++i < len_path)
 			new_path[i] = f->path[i];
-		while (f->(*lnk_path) != '\0')
-			new_path[i++] = *lnk_path;
-		lnk_path -= len_lnk;
+		while (j < len_lnk)
+			new_path[i++] = f->lnk_path[j++];
+		f->lnk_path -= len_lnk;
 		ft_strdel(&f->path);
-		path = new_path;
+		f->path = new_path;
 		return (1);
-		}*/
+	}
 	return (0);
 }
 
@@ -135,16 +136,15 @@ int				base_list(t_list *list, t_arg *a_l, bool alone, bool first)
 {
 	t_list	*link;
 	t_list	*new_l;
-	char	*path;
 
-	path = NULL;
 	link = list;
 	new_l = NULL;
 	while (link != NULL)
 	{
-		if (get_realpath(&path, ((t_file *)link->content), a_l) == 1)
+		if (get_realpath(((t_file *)link->content)) == 1)
 		{
-			if (make_list(path, a_l, &new_l) == 1)
+			printf("path: [%s], name: [%s]\n", ((t_file *)list->content)->path, ((t_file *)list->content)->name);
+			if (make_list(((t_file *)link->content)->path, a_l, &new_l) == 1)
 				return (1);
 			if (alone == 0)
 			{

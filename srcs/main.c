@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 18:00:58 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/08 17:18:01 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/10 15:25:47 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int			main(int argc, char **argv)
 {
 	t_arg	arg_list;
 
-	arg_list = ARG_INIT;
+	ft_bzero(&arg_list, sizeof(arg_list));
 	if (get_flag(argc, argv, &arg_list) == 1)
 		return (1);
 	else if (make_ls(argc, argv, &arg_list) == 1)

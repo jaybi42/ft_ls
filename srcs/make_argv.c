@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/07 18:18:42 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/10 15:51:25 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void		print_fakelist(t_list **list)
 	}
 }
 
-static t_list	*get_reglist(t_list **list)
+static t_list	*get_reglist(t_list **list, bool lnk)
 {
     t_list  *reg_list;
 	t_list	*prev;
@@ -73,7 +73,7 @@ static t_list	*get_reglist(t_list **list)
 
 	reg_list = NULL;
 	prev = *list;
-    while (prev != NULL && S_ISREG(((t_file *)prev->content)->mode) == 1)
+    while (prev != NULL && (S_ISREG(((t_file *)prev->content)->mode) == 1 || lnk == 1))
 	{
 		*list = (*list)->next;
 		ft_lstadd_last(&reg_list, prev);
@@ -82,7 +82,7 @@ static t_list	*get_reglist(t_list **list)
 	while (prev != NULL && prev->next != NULL)
 	{
 		cur = prev->next;
-		if (S_ISREG(((t_file *)cur->content)->mode) == 1)
+		if (S_ISREG(((t_file *)cur->content)->mode) == 1 || lnk == 1)
 		{
 			prev->next = cur->next;
 			ft_lstadd_last(&reg_list, cur);
@@ -103,13 +103,14 @@ static int		sort_argv(t_list **list, t_arg *arg_list)
 	printf("lnk_path: [%s]\n", ((t_file *)(*list)->content)->lnk_path);
 	if ((*list)->next == NULL
 		&& (S_ISDIR(((t_file *)(*list)->content)->mode) == 1
-		|| ((t_file *)(*list)->content)->lnk_path != NULL))
+			|| (((t_file *)(*list)->content)->lnk_path != NULL
+				&& arg_list->arg[9] == 0)))
 		return (base_list(*list, arg_list, 1, first));
 	if (*list != NULL)
 		print_fakelist(list);
 	if (*list != NULL)
 	{
-		reg_list = get_reglist(list);
+		reg_list = get_reglist(list, S_ISLNK(((t_file *)(*list)->content)->mode));
 		if (reg_list != NULL)
 		{
 			print_ls(reg_list, arg_list);

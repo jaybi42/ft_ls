@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/01 02:25:01 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/10 15:24:49 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include "libft.h"
 #include <sys/stat.h>
 
-# define ARG_INIT ((t_arg){{0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0 ,0}, 5, 0})
+# define ARG_INIT ((t_arg){{0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0 ,0}})
 
 typedef struct	s_maxlen
 {
@@ -78,8 +78,6 @@ typedef struct	s_file
 typedef struct	s_arg
 {
 	bool		arg[14];
-	int			size;
-	int			cursor;
 }				t_arg;
 
 /*
