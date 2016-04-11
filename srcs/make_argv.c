@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/10 15:51:25 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/11 14:15:33 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,16 @@ static void		print_fakelist(t_list **list)
 	}
 }
 
-static t_list	*get_reglist(t_list **list, bool lnk)
+static t_list	*get_reglist(t_list **list)
 {
-    t_list  *reg_list;
+	t_list  *reg_list;
 	t_list	*prev;
 	t_list	*cur;
 
 	reg_list = NULL;
 	prev = *list;
-    while (prev != NULL && (S_ISREG(((t_file *)prev->content)->mode) == 1 || lnk == 1))
+    while (prev != NULL && (S_ISREG(((t_file *)prev->content)->mode) == 1 &&
+							((t_file *)prev->content)->lnk_path == NULL))
 	{
 		*list = (*list)->next;
 		ft_lstadd_last(&reg_list, prev);
@@ -82,7 +83,8 @@ static t_list	*get_reglist(t_list **list, bool lnk)
 	while (prev != NULL && prev->next != NULL)
 	{
 		cur = prev->next;
-		if (S_ISREG(((t_file *)cur->content)->mode) == 1 || lnk == 1)
+		if (S_ISREG(((t_file *)cur->content)->mode) == 1 &&
+			((t_file *)prev->content)->lnk_path == NULL)
 		{
 			prev->next = cur->next;
 			ft_lstadd_last(&reg_list, cur);
@@ -99,8 +101,6 @@ static int		sort_argv(t_list **list, t_arg *arg_list)
 	bool	first;
 
 	first = 1;
-	printf("path: [%s], name: [%s]\n", ((t_file *)(*list)->content)->path, ((t_file *)(*list)->content)->name);
-	printf("lnk_path: [%s]\n", ((t_file *)(*list)->content)->lnk_path);
 	if ((*list)->next == NULL
 		&& (S_ISDIR(((t_file *)(*list)->content)->mode) == 1
 			|| (((t_file *)(*list)->content)->lnk_path != NULL
@@ -110,7 +110,7 @@ static int		sort_argv(t_list **list, t_arg *arg_list)
 		print_fakelist(list);
 	if (*list != NULL)
 	{
-		reg_list = get_reglist(list, S_ISLNK(((t_file *)(*list)->content)->mode));
+		reg_list = get_reglist(list);
 		if (reg_list != NULL)
 		{
 			print_ls(reg_list, arg_list);

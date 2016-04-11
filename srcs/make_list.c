@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/10 16:28:26 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/11 15:10:10 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,8 @@ static bool		get_realpath(t_file *f)
 		while (j < len_lnk)
 			new_path[i++] = f->lnk_path[j++];
 		f->lnk_path -= len_lnk;
-		ft_strdel(&f->path);
-		f->path = new_path;
+//		ft_strdel(&f->lnk_path);
+		f->lnk_path = new_path;
 		return (1);
 	}
 	return (0);
@@ -143,7 +143,6 @@ int				base_list(t_list *list, t_arg *a_l, bool alone, bool first)
 	{
 		if (get_realpath(((t_file *)link->content)) == 1)
 		{
-			printf("path: [%s], name: [%s]\n", ((t_file *)list->content)->path, ((t_file *)list->content)->name);
 			if (make_list(((t_file *)link->content)->path, a_l, &new_l) == 1)
 				return (1);
 			if (alone == 0)
