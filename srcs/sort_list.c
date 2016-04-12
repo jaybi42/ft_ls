@@ -6,13 +6,13 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/22 15:40:27 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/12 17:00:07 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/12 18:35:33 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void link_to_front(t_list **list, t_list *link)
+static void	link_to_front(t_list **list, t_list *link)
 {
 	t_list	*prev;
 
@@ -39,7 +39,7 @@ static bool	link_toswap(t_file *link_f, t_file *tamp_f, bool crescent)
 	return (0);
 }
 
-static void sort_time(t_list **list, bool crescent)
+static void	sort_time(t_list **list, bool crescent)
 {
 	t_list	*tamp;
 	t_list	*link;
@@ -64,7 +64,7 @@ static void sort_time(t_list **list, bool crescent)
 	}
 }
 
-static void sort_lexi(t_list **list, bool crescent)
+static void	sort_lexi(t_list **list, bool crescent)
 {
 	t_list	*tamp;
 	t_list	*link;

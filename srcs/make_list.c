@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/12 16:40:54 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/12 18:43:24 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,29 +51,7 @@ static char			*make_path(char *path, char *name)
 	return (new_path);
 }
 
-int				add_list(char *path, t_arg *arg_list, t_list **new_list)
-{
-	t_list		*tamp;
-	t_file		file;
-
-	if (*new_list == NULL)
-	{
-		get_stat(path, &file, arg_list);
-		*new_list = ft_lstnew((void *)&file, sizeof(t_file));
-		if (*new_list == NULL)
-			return (1);
-	}
-	else	{
-		get_stat(path, &file, arg_list);
-		tamp = ft_lstnew((void *)&file, sizeof(t_file));
-		if (tamp == NULL)
-			return (1);
-		ft_lstadd(new_list, tamp);
-	}
-	return (0);
-}
-
-static int				make_list(char *path, t_arg *arg_list, t_list **new_list)
+static int			make_list(char *path, t_arg *arg_list, t_list **new_list)
 {
 	DIR				*dir;
 	char			*new_path;
@@ -102,7 +80,7 @@ static int				make_list(char *path, t_arg *arg_list, t_list **new_list)
 	return (0);
 }
 
-static bool		get_realpath(t_file *f)
+static bool			get_realpath(t_file *f)
 {
 	char	*new_path;
 	int		len_path;
@@ -130,23 +108,21 @@ static bool		get_realpath(t_file *f)
 	return (0);
 }
 
-int				base_list(t_list *list, t_arg *a_l, bool alone, bool first)
+int					base_list(t_list *list, t_arg *a_l, bool alone, bool first)
 {
-	t_list	*link;
 	t_list	*new_l;
 
-	link = list;
 	new_l = NULL;
-	while (link != NULL)
+	while (list != NULL)
 	{
-		if (get_realpath(((t_file *)link->content)) == 1)
+		if (get_realpath(((t_file *)list->content)) == 1)
 		{
-			if (make_list(((t_file *)link->content)->path, a_l, &new_l) == 1)
+			if (make_list(((t_file *)list->content)->path, a_l, &new_l) == 1)
 				return (1);
 			if (alone == 0)
 			{
 				first == 1 ? first = 0 : ft_putchar('\n');
-				ft_putstr(((t_file *)link->content)->path);
+				ft_putstr(((t_file *)list->content)->path);
 				ft_putendl(":");
 			}
 			print_ls(new_l, a_l);
@@ -155,7 +131,7 @@ int				base_list(t_list *list, t_arg *a_l, bool alone, bool first)
 		}
 		if (new_l != NULL)
 			ft_lstdel(&new_l, free_list);
-		link = link->next;
+		list = list->next;
 	}
 	return (0);
 }

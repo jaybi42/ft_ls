@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/12 17:22:16 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/12 18:56:12 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,16 @@ static void		print_fakelist(t_list **list)
 	}
 }
 
-static t_list	*get_reglist(t_list **list, bool l_opt)
+static t_list	*get_reglist(t_list **list)
 {
-	t_list  *reg_list;
+	t_list	*reg_list;
 	t_list	*prev;
 	t_list	*cur;
 
 	reg_list = NULL;
 	prev = *list;
-    while (prev != NULL && (S_ISREG(((t_file *)prev->content)->mode == 1) ||
-							(((t_file *)prev->content)->lnk_path != NULL && l_opt == 1)))
+	while (prev != NULL && (S_ISREG(((t_file *)prev->content)->mode == 1) ||
+							((t_file *)prev->content)->lnk_isreg == 1))
 	{
 		*list = (*list)->next;
 		ft_lstadd_last(&reg_list, prev);
@@ -83,8 +83,7 @@ static t_list	*get_reglist(t_list **list, bool l_opt)
 	while (prev != NULL && prev->next != NULL)
 	{
 		cur = prev->next;
-		if (S_ISREG(((t_file *)cur->content)->mode) == 1 ||
-			(((t_file *)prev->content)->lnk_path != NULL && l_opt == 1))
+		if (S_ISREG(((t_file *)cur->content)->mode) == 1 || MACRODEGEULASS == 1)
 		{
 			prev->next = cur->next;
 			ft_lstadd_last(&reg_list, cur);
@@ -106,7 +105,7 @@ static int		sort_argv(t_list **list, t_arg *arg_list)
 		print_fakelist(list);
 	if (*list != NULL)
 	{
-		reg_list = get_reglist(list, arg_list->arg[9]);
+		reg_list = get_reglist(list);
 		if (reg_list != NULL)
 		{
 			print_ls(reg_list, arg_list);
@@ -132,7 +131,7 @@ int				argv_to_list(char **argv, int argi, t_arg *arg_list)
 		return (1);
 	while (argi > 0)
 	{
-		if (add_list(argv[argi--], arg_list,  &begin_list) == 1)
+		if (add_list(argv[argi--], arg_list, &begin_list) == 1)
 			return (1);
 	}
 	if (begin_list->next != NULL)

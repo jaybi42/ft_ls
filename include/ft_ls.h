@@ -6,23 +6,18 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/12 17:21:35 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/12 18:58:10 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_LS_H
 # define FT_LS_H
 
-/*
-** TODO:
-*/
-
-# include <stdio.h> //
-
 # include "libft.h"
-#include <sys/stat.h>
+# include <sys/stat.h>
 
 # define ARG_INIT ((t_arg){{0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0 ,0}})
+# define MACRODEGEULASS ((t_file *)cur->content)->lnk_isreg
 
 typedef struct	s_maxlen
 {
@@ -50,6 +45,7 @@ typedef struct	s_file
 	char		*path;
 	char		*name;
 	char		*lnk_path;
+	bool		lnk_isreg;
 	int			error;
 	uint16_t	mode;
 	uint16_t	nb_link;
@@ -82,7 +78,7 @@ void			print_error(char *name, int error);
 
 /*
 **Name: Parsing
-**File: make_argv.c sort_argv.c make_list.c
+**File: make_argv.c sort_argv.c make_list.c mod_list.c
 **Desc: Parse files
 */
 

@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/04/12 13:40:20 by jguthert         ###   ########.fr        #
+#    Updated: 2016/04/12 18:28:27 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -51,6 +51,7 @@ SRCSFILES =             main.c			\
 						print_ls_time.c	\
 						print_ls_ext.c	\
 						print_ls_error.c\
+						mod_list.c		\
 
 ##=-  Process -=##
 

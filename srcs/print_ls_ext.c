@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/02 18:02:25 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/12 17:01:01 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/12 18:35:54 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static void		print_size(uint64_t size, bool h, t_maxlen *maxlen)
 			ft_putchar(' ');
 		ft_putnbr(size);
 	}
-	ft_putchar(' ');
 }
 
 static void		print_id(t_file *file, bool g, bool n, t_maxlen *maxlen)
@@ -77,8 +76,8 @@ static int		print_mode(uint16_t mode, char *path)
 {
 	char const	base[] = "-rwxrwxrwx";
 	char const	type[] = "-pc-d-b---l-s----";
-	int		i;
-	acl_t   acl;
+	int			i;
+	acl_t		acl;
 
 	i = 1;
 	acl = NULL;
@@ -118,7 +117,7 @@ static void		print_majmin(int major, int minor, t_maxlen *maxlen)
 	ft_putchar(' ');
 }
 
-void		print_ls_ext(t_file *file, t_arg *arg_list, t_maxlen *maxlen)
+void			print_ls_ext(t_file *file, t_arg *arg_list, t_maxlen *maxlen)
 {
 	int		i;
 
@@ -132,6 +131,9 @@ void		print_ls_ext(t_file *file, t_arg *arg_list, t_maxlen *maxlen)
 	if (S_ISCHR(file->mode) == 1 || S_ISBLK(file->mode) == 1)
 		print_majmin(file->major, file->minor, maxlen);
 	else
+	{
 		print_size(file->size, arg_list->arg[7], maxlen);
-		print_time(file->time);
+		ft_putchar(' ');
+	}
+	print_time(file->time);
 }

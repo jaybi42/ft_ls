@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/19 19:10:05 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/12 17:18:15 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/12 18:54:28 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <grp.h>
 #include <errno.h>
 
-static char		*name_from_path(char *path)
+static char			*name_from_path(char *path)
 {
 	int	max;
 
@@ -29,7 +29,7 @@ static char		*name_from_path(char *path)
 	return (&path[max]);
 }
 
-static void		stat_grpw(t_file *file, gid_t st_gid, uid_t st_uid)
+static void			stat_grpw(t_file *file, gid_t st_gid, uid_t st_uid)
 {
 	struct group	*gr;
 	struct passwd	*pw;
@@ -51,7 +51,7 @@ static void		stat_grpw(t_file *file, gid_t st_gid, uid_t st_uid)
 	file->id.nuser = st_uid;
 }
 
-static void		stat_time(t_file *file, struct stat stat, t_arg *arg_list)
+static void			stat_time(t_file *file, struct stat stat, t_arg *arg_list)
 {
 	if (arg_list->arg[4] == 1)
 	{
@@ -67,28 +67,30 @@ static void		stat_time(t_file *file, struct stat stat, t_arg *arg_list)
 	file->nano = stat.st_mtimespec.tv_nsec;
 }
 
-static char		*lnk_dir(uint16_t mode, char *path)
+static char			*lnk_dir(t_file *file, bool l_opt)
 {
-	char			buff[1024];
-	ssize_t			len;
-	struct stat		get_stat;
+	char		buff[1024];
+	ssize_t		len;
+	struct stat	get_stat;
 
-	if (S_ISLNK(mode) == 0)
+	if (S_ISLNK(file->mode) == 0)
 		return (NULL);
-	len = readlink(path, buff, sizeof(buff) - 1);
+	len = readlink(file->path, buff, sizeof(buff) - 1);
 	if (len == -1)
 		return (NULL);
-	if (stat(path, &get_stat) == -1)
+	if (stat(file->path, &get_stat) == -1)
 		return (NULL);
 	if (S_ISDIR(get_stat.st_mode) == 0)
 		return (NULL);
+	if (l_opt == 1)
+		file->lnk_isreg = 1;
 	return (ft_strdup(buff));
 }
 
-int			get_stat(char *path, t_file *file, t_arg *arg_list)
+int					get_stat(char *path, t_file *file, t_arg *arg_list)
 {
-	int				ret_stat;
-	struct stat		stat;
+	int			ret_stat;
+	struct stat	stat;
 
 	ft_bzero(file, sizeof(t_file));
 	file->path = ft_strdup(path);
@@ -110,6 +112,6 @@ int			get_stat(char *path, t_file *file, t_arg *arg_list)
 	file->size = stat.st_size;
 	file->ino = stat.st_ino;
 	file->blocks = stat.st_blocks;
-	file->lnk_path = lnk_dir(file->mode, file->path);
+	file->lnk_path = lnk_dir(file, arg_list->arg[9]);
 	return (0);
 }

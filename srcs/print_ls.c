@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/12 16:21:49 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/12 18:22:18 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,16 @@ static void		print_total(t_list *list)
 	ft_putchar('\n');
 }
 
-static void		print_name(char *path, char *name, bool is_lnk, bool l)
+static void		print_name(t_file *file, bool l_opt)
 {
 	char		buff[1024];
 	ssize_t		len;
 
-	if (name != NULL)
-		ft_putstr(name);
-	if (is_lnk == 1 && l == 1)
+	if (file->name != NULL)
+		ft_putstr(file->name);
+	if (S_ISLNK(file->mode) == 1 && l_opt == 1)
 	{
-		len = readlink(path, buff, sizeof(buff) - 1);
+		len = readlink(file->path, buff, sizeof(buff) - 1);
 		if (len == -1)
 			return ;
 		ft_putstr(" -> ");
@@ -90,7 +90,6 @@ static void		print_ino(int ino, int ino_maxlen)
 
 void			print_ls(t_list *list, t_arg *arg_list)
 {
-	t_file		*file;
 	t_maxlen	maxlen;
 
 	ft_bzero(&maxlen, sizeof(t_maxlen));
@@ -100,12 +99,11 @@ void			print_ls(t_list *list, t_arg *arg_list)
 		print_total(list);
 	while (list != NULL)
 	{
-		file = ((t_file *)list->content);
 		if (arg_list->arg[8] == 1)
-			print_ino(file->ino, maxlen.ino);
+			print_ino(((t_file *)list->content)->ino, maxlen.ino);
 		if (list != NULL && arg_list->arg[9] == 1)
-			print_ls_ext(file, arg_list, &maxlen);
-		print_name(file->path, file->name, S_ISLNK(file->mode), arg_list->arg[9]);
+			print_ls_ext((t_file *)list->content, arg_list, &maxlen);
+		print_name((t_file *)list->content, arg_list->arg[9]);
 		list = list->next;
 	}
 }

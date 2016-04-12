@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 18:00:58 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/12 16:36:02 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/12 18:16:07 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <sys/types.h>
 #include <dirent.h>
 
-static int	arg_error(char c, const char *base)
+static int		arg_error(char c, const char *base)
 {
 	ft_putstr_fd("ls: illegal option -- ", 2);
 	ft_putchar_fd(c, 2);
@@ -25,7 +25,7 @@ static int	arg_error(char c, const char *base)
 	return (1);
 }
 
-static int	is_in(char c, const char *str)
+static int		is_in(char c, const char *str)
 {
 	int i;
 
@@ -39,7 +39,7 @@ static int	is_in(char c, const char *str)
 	return (-1);
 }
 
-static int	get_flag(int argc, char **argv, t_arg *arg_list)
+static int		get_flag(int argc, char **argv, t_arg *arg_list)
 {
 	char const	base[] = "ARSacfghilnrtu";
 	char		*tmp;
@@ -67,9 +67,9 @@ static int	get_flag(int argc, char **argv, t_arg *arg_list)
 	return (0);
 }
 
-static int	make_ls(int argc, char **argv, t_arg *arg_list)
+static int		make_ls(int argc, char **argv, t_arg *arg_list)
 {
-	char	*root[] = {".", NULL};
+	char const	*root[] = {".", NULL};
 
 	argc -= 1;
 	while (argc > 0 && argv[1][0] == '-' && argv[1][1] != '\0')
@@ -78,12 +78,12 @@ static int	make_ls(int argc, char **argv, t_arg *arg_list)
 		argc--;
 	}
 	if (argc == 0)
-		return (argv_to_list(root, 0, arg_list));
+		return (argv_to_list((char **)root, 0, arg_list));
 	else
 		return (argv_to_list(argv, argc, arg_list));
 }
 
-int			main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	t_arg	arg_list;
 
