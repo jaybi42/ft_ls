@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/12 13:52:02 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/12 17:22:16 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,11 +128,11 @@ int				argv_to_list(char **argv, int argi, t_arg *arg_list)
 	t_list	*begin_list;
 
 	begin_list = NULL;
-	if (add_list(argv[argi--], &begin_list) == 1)
+	if (add_list(argv[argi--], arg_list, &begin_list) == 1)
 		return (1);
 	while (argi > 0)
 	{
-		if (add_list(argv[argi--], &begin_list) == 1)
+		if (add_list(argv[argi--], arg_list,  &begin_list) == 1)
 			return (1);
 	}
 	if (begin_list->next != NULL)

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/19 19:10:05 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/12 13:40:45 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/12 17:18:15 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,20 @@ static void		stat_grpw(t_file *file, gid_t st_gid, uid_t st_uid)
 	file->id.nuser = st_uid;
 }
 
-static void		stat_time(t_file *file, struct timespec mtime,
-						  struct timespec ctime, struct timespec atime)
+static void		stat_time(t_file *file, struct stat stat, t_arg *arg_list)
 {
-	ft_bzero(&(file->time), sizeof(t_time));
-	file->time.atime = atime.tv_sec;
-	file->time.anano = atime.tv_nsec;
-	file->time.ctime = ctime.tv_sec;
-	file->time.cnano = ctime.tv_nsec;
-	file->time.mtime = mtime.tv_sec;
-	file->time.mnano = mtime.tv_nsec;
+	if (arg_list->arg[4] == 1)
+	{
+		file->time = stat.st_ctimespec.tv_sec;
+		file->nano = stat.st_ctimespec.tv_nsec;
+	}
+	else if (arg_list->arg[13] == 1)
+	{
+		file->time = stat.st_atimespec.tv_sec;
+		file->nano = stat.st_atimespec.tv_nsec;
+	}
+	file->time = stat.st_mtimespec.tv_sec;
+	file->nano = stat.st_mtimespec.tv_nsec;
 }
 
 static char		*lnk_dir(uint16_t mode, char *path)
@@ -81,7 +85,7 @@ static char		*lnk_dir(uint16_t mode, char *path)
 	return (ft_strdup(buff));
 }
 
-int			get_stat(char *path, t_file *file)
+int			get_stat(char *path, t_file *file, t_arg *arg_list)
 {
 	int				ret_stat;
 	struct stat		stat;
@@ -98,7 +102,7 @@ int			get_stat(char *path, t_file *file)
 		return (1);
 	}
 	stat_grpw(file, stat.st_gid, stat.st_uid);
-	stat_time(file, stat.st_mtimespec, stat.st_ctimespec, stat.st_atimespec);
+	stat_time(file, stat, arg_list);
 	file->minor = minor(stat.st_rdev);
 	file->major = major(stat.st_rdev);
 	file->mode = stat.st_mode;

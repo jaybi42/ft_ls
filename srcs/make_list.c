@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/12 13:47:35 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/12 16:40:54 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,11 @@ static int			can_add(char *str, t_arg *arg_list)
 {
 	if (str == NULL)
 		return (0);
-	if (arg_list->arg[4] == 1)
+	if (arg_list->arg[3] == 1 || arg_list->arg[5] == 1)
 		return (1);
-	else if (str[0] == '.' && arg_list->arg[0] == 0)
-		return (0);
-	else if (str[0] == '.' && str[1] == '.' &&
-			 (arg_list->arg[0] == 0 || arg_list->arg[5] == 0))
+	if (arg_list->arg[0] == 1 && *str == '.' && str[1] != '.' && str[1] != '\0')
+		return (1);
+	if (str[0] == '.')
 		return (0);
 	return (1);
 }
@@ -52,20 +51,20 @@ static char			*make_path(char *path, char *name)
 	return (new_path);
 }
 
-int				add_list(char *path, t_list **new_list)
+int				add_list(char *path, t_arg *arg_list, t_list **new_list)
 {
 	t_list		*tamp;
 	t_file		file;
 
 	if (*new_list == NULL)
 	{
-		get_stat(path, &file);
+		get_stat(path, &file, arg_list);
 		*new_list = ft_lstnew((void *)&file, sizeof(t_file));
 		if (*new_list == NULL)
 			return (1);
 	}
 	else	{
-		get_stat(path, &file);
+		get_stat(path, &file, arg_list);
 		tamp = ft_lstnew((void *)&file, sizeof(t_file));
 		if (tamp == NULL)
 			return (1);
@@ -93,7 +92,7 @@ static int				make_list(char *path, t_arg *arg_list, t_list **new_list)
 		new_path = make_path(path, st_dir->d_name);
 		if (new_path == NULL)
 			return (1);
-		if (add_list(new_path, new_list) == 1)
+		if (add_list(new_path, arg_list, new_list) == 1)
 			return (1);
 	}
 	if (closedir(dir) == -1)

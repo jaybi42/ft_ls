@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/10 15:24:49 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/12 17:21:35 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,6 @@ typedef struct	s_maxlen
 	int			minor;
 }				t_maxlen;
 
-typedef struct	s_time
-{
-	time_t		atime;
-	uint64_t	anano;
-	time_t		ctime;
-	uint64_t	cnano;
-	time_t		mtime;
-	uint64_t	mnano;
-}				t_time;
-
 typedef struct	s_id
 {
 	char		*gp;
@@ -61,7 +51,6 @@ typedef struct	s_file
 	char		*name;
 	char		*lnk_path;
 	int			error;
-	uint8_t		namelen;
 	uint16_t	mode;
 	uint16_t	nb_link;
 	uint64_t	size;
@@ -70,9 +59,9 @@ typedef struct	s_file
 	int			ino;
 	int			major;
 	int			minor;
-	char		acl;
+	time_t		time;
+	uint64_t	nano;
 	t_id		id;
-	t_time		time;
 }				t_file;
 
 typedef struct	s_arg
@@ -97,7 +86,7 @@ void			print_error(char *name, int error);
 **Desc: Parse files
 */
 
-int				add_list(char *path, t_list **new_list);
+int				add_list(char *path, t_arg *arg_list, t_list **new_list);
 int				base_list(t_list *list, t_arg *arg_list, bool alon, bool first);
 int				argv_to_list(char **argv, int argi, t_arg *arg_list);
 int				sort_list(t_list **list, t_arg *arg_list);
@@ -109,7 +98,6 @@ void			free_list(void *content, size_t size);
 **Desc: Get information from stat
 */
 
-int				get_stat(char *path, t_file *file);
-int				x_attr(t_file *file);
+int				get_stat(char *path, t_file *file, t_arg *arg_list);
 
 #endif

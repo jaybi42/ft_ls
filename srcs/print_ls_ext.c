@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/02 18:02:25 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/12 13:40:09 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/12 17:01:01 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void		print_size(uint64_t size, bool h, t_maxlen *maxlen)
 	}
 	else
 	{
-		i = maxlen->size - ft_nbrlen(size) + 1;
+		i = maxlen->size - ft_nbrlen(size);
 		while (i-- > 0)
 			ft_putchar(' ');
 		ft_putnbr(size);
@@ -133,10 +133,5 @@ void		print_ls_ext(t_file *file, t_arg *arg_list, t_maxlen *maxlen)
 		print_majmin(file->major, file->minor, maxlen);
 	else
 		print_size(file->size, arg_list->arg[7], maxlen);
-	if (arg_list->arg[13] == 1)
-		print_time(file->time.mtime);
-	else if (arg_list->arg[3] == 1)
-		print_time(file->time.atime);
-	else
-		print_time(file->time.ctime);
+		print_time(file->time);
 }

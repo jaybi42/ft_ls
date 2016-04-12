@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 18:00:58 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/10 15:25:47 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/12 16:36:02 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	is_in(char c, const char *str)
 
 static int	get_flag(int argc, char **argv, t_arg *arg_list)
 {
-	char const	base[] = "ARSUafghilnrtu";
+	char const	base[] = "ARSacfghilnrtu";
 	char		*tmp;
 	int			i;
 	int			ret;

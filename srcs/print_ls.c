@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/08 16:15:15 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/12 16:21:49 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static void		print_ino(int ino, int ino_maxlen)
 {
 	int i;
 
-	i = ino_maxlen - ft_nbrlen(ino) + 1;
+	i = ino_maxlen - ft_nbrlen(ino);
 	while (i-- > 0)
 		ft_putchar(' ');
 	ft_putnbr(ino);
