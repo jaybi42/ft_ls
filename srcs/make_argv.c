@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/11 14:15:33 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/12 13:52:02 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void		print_fakelist(t_list **list)
 	}
 }
 
-static t_list	*get_reglist(t_list **list)
+static t_list	*get_reglist(t_list **list, bool l_opt)
 {
 	t_list  *reg_list;
 	t_list	*prev;
@@ -73,8 +73,8 @@ static t_list	*get_reglist(t_list **list)
 
 	reg_list = NULL;
 	prev = *list;
-    while (prev != NULL && (S_ISREG(((t_file *)prev->content)->mode) == 1 &&
-							((t_file *)prev->content)->lnk_path == NULL))
+    while (prev != NULL && (S_ISREG(((t_file *)prev->content)->mode == 1) ||
+							(((t_file *)prev->content)->lnk_path != NULL && l_opt == 1)))
 	{
 		*list = (*list)->next;
 		ft_lstadd_last(&reg_list, prev);
@@ -83,8 +83,8 @@ static t_list	*get_reglist(t_list **list)
 	while (prev != NULL && prev->next != NULL)
 	{
 		cur = prev->next;
-		if (S_ISREG(((t_file *)cur->content)->mode) == 1 &&
-			((t_file *)prev->content)->lnk_path == NULL)
+		if (S_ISREG(((t_file *)cur->content)->mode) == 1 ||
+			(((t_file *)prev->content)->lnk_path != NULL && l_opt == 1))
 		{
 			prev->next = cur->next;
 			ft_lstadd_last(&reg_list, cur);
@@ -99,18 +99,14 @@ static int		sort_argv(t_list **list, t_arg *arg_list)
 {
 	t_list	*reg_list;
 	bool	first;
+	bool	alone;
 
 	first = 1;
-	if ((*list)->next == NULL
-		&& (S_ISDIR(((t_file *)(*list)->content)->mode) == 1
-			|| (((t_file *)(*list)->content)->lnk_path != NULL
-				&& arg_list->arg[9] == 0)))
-		return (base_list(*list, arg_list, 1, first));
 	if (*list != NULL)
 		print_fakelist(list);
 	if (*list != NULL)
 	{
-		reg_list = get_reglist(list);
+		reg_list = get_reglist(list, arg_list->arg[9]);
 		if (reg_list != NULL)
 		{
 			print_ls(reg_list, arg_list);
@@ -118,8 +114,11 @@ static int		sort_argv(t_list **list, t_arg *arg_list)
 			first = 0;
 		}
 	}
-	if (list != NULL)
-		return (base_list(*list, arg_list, 0, first));
+	alone = 0;
+	if ((*list) != NULL && (*list)->next == NULL)
+		alone = 1;
+	if (*list != NULL)
+		return (base_list(*list, arg_list, alone, first));
 	else
 		return (0);
 }

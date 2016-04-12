@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/19 19:10:05 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/11 15:03:53 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/12 13:40:45 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ static void		stat_grpw(t_file *file, gid_t st_gid, uid_t st_uid)
 	file->id.nuser = st_uid;
 }
 
-static void		stat_time(t_file *file, struct timespec atime,
-						  struct timespec ctime, struct timespec mtime)
+static void		stat_time(t_file *file, struct timespec mtime,
+						  struct timespec ctime, struct timespec atime)
 {
 	ft_bzero(&(file->time), sizeof(t_time));
 	file->time.atime = atime.tv_sec;
@@ -78,8 +78,6 @@ static char		*lnk_dir(uint16_t mode, char *path)
 		return (NULL);
 	if (S_ISDIR(get_stat.st_mode) == 0)
 		return (NULL);
-//	lnk = ft_strnew(len);
-//	ft_strncpy(lnk, buff, len);
 	return (ft_strdup(buff));
 }
 
@@ -109,6 +107,5 @@ int			get_stat(char *path, t_file *file)
 	file->ino = stat.st_ino;
 	file->blocks = stat.st_blocks;
 	file->lnk_path = lnk_dir(file->mode, file->path);
-	x_attr(file);
 	return (0);
 }

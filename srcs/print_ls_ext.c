@@ -6,11 +6,13 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/02 18:02:25 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/01 02:06:29 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/12 13:40:09 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include <sys/xattr.h>
+#include <sys/acl.h>
 
 static void		print_size(uint64_t size, bool h, t_maxlen *maxlen)
 {
@@ -71,13 +73,15 @@ static void		print_id(t_file *file, bool g, bool n, t_maxlen *maxlen)
 		ft_putchar(' ');
 }
 
-static int		print_mode(uint16_t mode)
+static int		print_mode(uint16_t mode, char *path)
 {
 	char const	base[] = "-rwxrwxrwx";
 	char const	type[] = "-pc-d-b---l-s----";
 	int		i;
+	acl_t   acl;
 
 	i = 1;
+	acl = NULL;
 	ft_putchar(type[((mode >> 12) > 16 ? 0 : mode >> 12)]);
 	while (i < 10)
 	{
@@ -87,7 +91,14 @@ static int		print_mode(uint16_t mode)
 			ft_putchar('-');
 		i++;
 	}
-	ft_putstr("  ");
+	if (listxattr(path, NULL, 0, XATTR_NOFOLLOW) > 1)
+		ft_putchar('@');
+	else if (acl_get_file(path, ACL_TYPE_EXTENDED))
+		ft_putchar('+');
+	else
+		ft_putchar(' ');
+	ft_putstr(" ");
+	acl_free((void *)acl);
 	return (0);
 }
 
@@ -112,7 +123,7 @@ void		print_ls_ext(t_file *file, t_arg *arg_list, t_maxlen *maxlen)
 	int		i;
 
 	i = maxlen->nb_link - ft_nbrlen(file->nb_link);
-	print_mode(file->mode);
+	print_mode(file->mode, file->path);
 	while (i-- > 0)
 		ft_putchar(' ');
 	ft_putnbr(file->nb_link);
