@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/02 15:59:44 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/12 18:24:35 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/12 19:27:41 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void		print_hm(char *str)
 
 static void		print_year(char *str)
 {
+	ft_putchar(' ');
 	while (*str != '\n' && *str != '\0')
 		str++;
 	str -= 4;
