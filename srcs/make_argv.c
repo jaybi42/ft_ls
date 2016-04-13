@@ -6,35 +6,13 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/21 14:12:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/12 18:56:12 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/13 14:52:02 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include <sys/types.h>
 #include <errno.h>
-#include <stdlib.h>
-
-void			free_list(void *content, size_t size)
-{
-	t_file	*file;
-	char	*path;
-	char	*lnk;
-
-	(void)size;
-	file = (t_file *)content;
-	if (file != NULL)
-	{
-		path = (char *)file->path;
-		lnk = (char *)file->lnk_path;
-		if (path != NULL)
-			ft_strdel(&path);
-		if (lnk != NULL)
-			ft_strdel(&lnk);
-		free(content);
-		content = NULL;
-	}
-}
 
 static void		print_fakelist(t_list **list)
 {
@@ -73,8 +51,8 @@ static t_list	*get_reglist(t_list **list)
 
 	reg_list = NULL;
 	prev = *list;
-	while (prev != NULL && (S_ISREG(((t_file *)prev->content)->mode == 1) ||
-							((t_file *)prev->content)->lnk_isreg == 1))
+	while (prev != NULL && (S_ISDIR(((t_file *)prev->content)->mode) == 0 &&
+							((t_file *)prev->content)->lnk_isdir == 0))
 	{
 		*list = (*list)->next;
 		ft_lstadd_last(&reg_list, prev);
@@ -83,7 +61,7 @@ static t_list	*get_reglist(t_list **list)
 	while (prev != NULL && prev->next != NULL)
 	{
 		cur = prev->next;
-		if (S_ISREG(((t_file *)cur->content)->mode) == 1 || MACRODEGEULASS == 1)
+		if (S_ISDIR(((t_file *)cur->content)->mode) == 0 && MACRODEGEULASS == 0)
 		{
 			prev->next = cur->next;
 			ft_lstadd_last(&reg_list, cur);

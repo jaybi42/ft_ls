@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/12 19:19:27 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/13 14:58:58 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <sys/stat.h>
 
 # define ARG_INIT ((t_arg){{0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0 ,0}})
-# define MACRODEGEULASS ((t_file *)cur->content)->lnk_isreg
+# define MACRODEGEULASS ((t_file *)cur->content)->lnk_isdir
 
 typedef struct	s_maxlen
 {
@@ -45,7 +45,7 @@ typedef struct	s_file
 	char		*path;
 	char		*name;
 	char		*lnk_path;
-	bool		lnk_isreg;
+	bool		lnk_isdir;
 	int			error;
 	uint16_t	mode;
 	uint16_t	nb_link;

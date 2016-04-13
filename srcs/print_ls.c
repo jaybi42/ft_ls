@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 18:52:50 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/12 18:22:18 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/13 15:16:30 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,12 @@ static void		print_total(t_list *list)
 
 static void		print_name(t_file *file, bool l_opt)
 {
-	char		buff[1024];
-	ssize_t		len;
-
 	if (file->name != NULL)
 		ft_putstr(file->name);
-	if (S_ISLNK(file->mode) == 1 && l_opt == 1)
+	if (file->lnk_path != NULL && l_opt == 1)
 	{
-		len = readlink(file->path, buff, sizeof(buff) - 1);
-		if (len == -1)
-			return ;
 		ft_putstr(" -> ");
-		buff[len] = '\0';
-		ft_putstr(buff);
+		ft_putstr(file->lnk_path);
 	}
 	ft_putchar('\n');
 }

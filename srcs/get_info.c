@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/19 19:10:05 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/12 18:54:28 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/13 15:24:03 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,24 +67,23 @@ static void			stat_time(t_file *file, struct stat stat, t_arg *arg_list)
 	file->nano = stat.st_mtimespec.tv_nsec;
 }
 
-static char			*lnk_dir(t_file *file, bool l_opt)
+static void			lnk_isdir(t_file *file, bool l_opt)
 {
 	char		buff[1024];
 	ssize_t		len;
 	struct stat	get_stat;
 
 	if (S_ISLNK(file->mode) == 0)
-		return (NULL);
+		return ;
 	len = readlink(file->path, buff, sizeof(buff) - 1);
 	if (len == -1)
-		return (NULL);
+		return ;
+	buff[len] = '\0';
+	file->lnk_path = ft_strdup(buff);
 	if (stat(file->path, &get_stat) == -1)
-		return (NULL);
-	if (S_ISDIR(get_stat.st_mode) == 0)
-		return (NULL);
-	if (l_opt == 1)
-		file->lnk_isreg = 1;
-	return (ft_strdup(buff));
+		return ;
+	if (S_ISDIR(get_stat.st_mode) == 1 && l_opt == 0)
+		file->lnk_isdir = 1;
 }
 
 int					get_stat(char *path, t_file *file, t_arg *arg_list)
@@ -112,6 +111,6 @@ int					get_stat(char *path, t_file *file, t_arg *arg_list)
 	file->size = stat.st_size;
 	file->ino = stat.st_ino;
 	file->blocks = stat.st_blocks;
-	file->lnk_path = lnk_dir(file, arg_list->arg[9]);
+	lnk_isdir(file, arg_list->arg[9]);
 	return (0);
 }

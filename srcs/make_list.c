@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/12 19:01:20 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/13 15:15:22 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static bool			get_realpath(t_file *f)
 
 	if (S_ISDIR(f->mode) == 1)
 		return (1);
-	else if (f->lnk_path != NULL)
+	else if (f->lnk_isdir == 1)
 	{
 		i = -1;
 		j = 0;
