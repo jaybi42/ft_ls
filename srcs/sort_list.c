@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/22 15:40:27 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/12 18:35:33 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/26 16:23:51 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static bool	link_toswap(t_file *link_f, t_file *tamp_f, bool crescent)
 	int		ret;
 
 	if (link_f->time == tamp_f->time)
-		ret = (link_f->nano > tamp_f->nano);
+		ret = (link_f->nano >= tamp_f->nano);
 	else
 		ret = (link_f->time > tamp_f->time);
 	if (ret == 0 && crescent)

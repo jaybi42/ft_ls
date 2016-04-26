@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/25 17:42:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/13 15:15:22 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/04/26 17:31:58 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,20 +80,21 @@ static int			make_list(char *path, t_arg *arg_list, t_list **new_list)
 	return (0);
 }
 
-static bool			get_realpath(t_file *f)
+static bool			get_realpath(t_file *f, int i, int j, bool alone)
 {
 	char	*new_path;
 	int		len_path;
 	int		len_lnk;
-	int		i;
-	int		j;
 
+	if (alone == 1 && (f->name[0] == '.' && f->name[1] == '\0'))
+		return (1);
+	if (S_ISDIR(f->mode) == 1 && ((f->name[0] == '.' && f->name[1] == '\0') ||
+								  (f->name[0] == '.' && f->name[1] == '.')))
+		return (0);
 	if (S_ISDIR(f->mode) == 1)
 		return (1);
-	else if (f->lnk_isdir == 1)
+	if (f->lnk_isdir == 1)
 	{
-		i = -1;
-		j = 0;
 		len_path = ft_strlen(f->path) - ft_strlen(f->name);
 		len_lnk = ft_strlen(f->lnk_path);
 		new_path = ft_strnew(len_path + len_lnk);
@@ -115,7 +116,7 @@ int					base_list(t_list *list, t_arg *a_l, bool alone, bool first)
 	new_l = NULL;
 	while (list != NULL)
 	{
-		if (get_realpath(((t_file *)list->content)) == 1)
+		if (get_realpath(((t_file *)list->content), -1, 0, alone) == 1)
 		{
 			if (make_list(((t_file *)list->content)->path, a_l, &new_l) == 1)
 				return (1);
