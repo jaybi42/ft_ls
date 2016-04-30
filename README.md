@@ -9,3 +9,4 @@ To work on in the future:
 
 - print in Columns
 - print with colors
+- Parsing flags
